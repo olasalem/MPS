@@ -16,20 +16,20 @@ public:
     ~MainWindow();
 
 private slots:
-
-    void on_openFile_clicked();
-
     void on_actionNew_File_triggered();
 
     void on_actionOpen_File_triggered();
 
     void on_actionSave_File_triggered();
 
+    void on_actionCompile_Simulate_triggered();
+
 private:
     Ui::MainWindow *ui;
     void setEditor();
     void setRegisterTable();
-
+    void saveFile();
+    bool fileSaved;
     Highlighter   *highlighter;
 
 };

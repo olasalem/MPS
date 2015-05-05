@@ -20,8 +20,10 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -40,6 +42,9 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QTextEdit *codeEditor;
     QWidget *Pipeline;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout;
+    QTableView *pipelineTable;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuView;
@@ -99,6 +104,19 @@ public:
         tabWidget->addTab(Editor, QString());
         Pipeline = new QWidget();
         Pipeline->setObjectName(QStringLiteral("Pipeline"));
+        verticalLayoutWidget = new QWidget(Pipeline);
+        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(0, 0, 561, 341));
+        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        pipelineTable = new QTableView(verticalLayoutWidget);
+        pipelineTable->setObjectName(QStringLiteral("pipelineTable"));
+
+        verticalLayout->addWidget(pipelineTable);
+
         tabWidget->addTab(Pipeline, QString());
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -125,7 +143,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
