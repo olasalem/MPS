@@ -22,7 +22,6 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QToolButton>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -30,6 +29,10 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionOpen_File;
+    QAction *actionNew_File;
+    QAction *actionSave_File;
+    QAction *actionCompile_Simulate;
     QWidget *centralWidget;
     QTabWidget *tabWidget;
     QWidget *Editor;
@@ -37,18 +40,11 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QTextEdit *codeEditor;
     QWidget *Pipeline;
-    QWidget *horizontalLayoutWidget_2;
-    QHBoxLayout *horizontalLayout_4;
-    QToolButton *toolButton;
-    QToolButton *toolButton_3;
-    QToolButton *toolButton_2;
-    QToolButton *toolButton_4;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuView;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
-    QToolBar *toolBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -60,11 +56,31 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
+        actionOpen_File = new QAction(MainWindow);
+        actionOpen_File->setObjectName(QStringLiteral("actionOpen_File"));
+        QIcon icon;
+        icon.addFile(QStringLiteral("folder_orange_open.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionOpen_File->setIcon(icon);
+        actionNew_File = new QAction(MainWindow);
+        actionNew_File->setObjectName(QStringLiteral("actionNew_File"));
+        QIcon icon1;
+        icon1.addFile(QStringLiteral("new-file.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionNew_File->setIcon(icon1);
+        actionSave_File = new QAction(MainWindow);
+        actionSave_File->setObjectName(QStringLiteral("actionSave_File"));
+        QIcon icon2;
+        icon2.addFile(QStringLiteral("save_all.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionSave_File->setIcon(icon2);
+        actionCompile_Simulate = new QAction(MainWindow);
+        actionCompile_Simulate->setObjectName(QStringLiteral("actionCompile_Simulate"));
+        QIcon icon3;
+        icon3.addFile(QStringLiteral("compfile.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionCompile_Simulate->setIcon(icon3);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
-        tabWidget->setGeometry(QRect(10, 30, 571, 351));
+        tabWidget->setGeometry(QRect(10, 0, 571, 371));
         Editor = new QWidget();
         Editor->setObjectName(QStringLiteral("Editor"));
         horizontalLayoutWidget = new QWidget(Editor);
@@ -84,50 +100,6 @@ public:
         Pipeline = new QWidget();
         Pipeline->setObjectName(QStringLiteral("Pipeline"));
         tabWidget->addTab(Pipeline, QString());
-        horizontalLayoutWidget_2 = new QWidget(centralWidget);
-        horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
-        horizontalLayoutWidget_2->setGeometry(QRect(10, 0, 171, 31));
-        horizontalLayout_4 = new QHBoxLayout(horizontalLayoutWidget_2);
-        horizontalLayout_4->setSpacing(6);
-        horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
-        toolButton = new QToolButton(horizontalLayoutWidget_2);
-        toolButton->setObjectName(QStringLiteral("toolButton"));
-        QIcon icon;
-        icon.addFile(QStringLiteral("1430796133_open-file.png"), QSize(), QIcon::Normal, QIcon::Off);
-        toolButton->setIcon(icon);
-        toolButton->setIconSize(QSize(20, 20));
-
-        horizontalLayout_4->addWidget(toolButton);
-
-        toolButton_3 = new QToolButton(horizontalLayoutWidget_2);
-        toolButton_3->setObjectName(QStringLiteral("toolButton_3"));
-        QIcon icon1;
-        icon1.addFile(QStringLiteral("new-file.png"), QSize(), QIcon::Normal, QIcon::Off);
-        toolButton_3->setIcon(icon1);
-        toolButton_3->setIconSize(QSize(20, 20));
-
-        horizontalLayout_4->addWidget(toolButton_3);
-
-        toolButton_2 = new QToolButton(horizontalLayoutWidget_2);
-        toolButton_2->setObjectName(QStringLiteral("toolButton_2"));
-        QIcon icon2;
-        icon2.addFile(QStringLiteral("1430796419_edit-validated.png"), QSize(), QIcon::Normal, QIcon::Off);
-        toolButton_2->setIcon(icon2);
-        toolButton_2->setIconSize(QSize(20, 20));
-
-        horizontalLayout_4->addWidget(toolButton_2);
-
-        toolButton_4 = new QToolButton(horizontalLayoutWidget_2);
-        toolButton_4->setObjectName(QStringLiteral("toolButton_4"));
-        QIcon icon3;
-        icon3.addFile(QStringLiteral("sortascend.png"), QSize(), QIcon::Normal, QIcon::Off);
-        toolButton_4->setIcon(icon3);
-        toolButton_4->setIconSize(QSize(20, 20));
-
-        horizontalLayout_4->addWidget(toolButton_4);
-
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -143,17 +115,17 @@ public:
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
-        toolBar = new QToolBar(MainWindow);
-        toolBar->setObjectName(QStringLiteral("toolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuView->menuAction());
-        toolBar->addSeparator();
+        mainToolBar->addAction(actionOpen_File);
+        mainToolBar->addAction(actionNew_File);
+        mainToolBar->addAction(actionSave_File);
+        mainToolBar->addAction(actionCompile_Simulate);
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -162,15 +134,23 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        actionOpen_File->setText(QApplication::translate("MainWindow", "Open File", 0));
+        actionNew_File->setText(QApplication::translate("MainWindow", "New File", 0));
+#ifndef QT_NO_TOOLTIP
+        actionNew_File->setToolTip(QApplication::translate("MainWindow", "New File", 0));
+#endif // QT_NO_TOOLTIP
+        actionSave_File->setText(QApplication::translate("MainWindow", "Save File", 0));
+#ifndef QT_NO_TOOLTIP
+        actionSave_File->setToolTip(QApplication::translate("MainWindow", "Save File", 0));
+#endif // QT_NO_TOOLTIP
+        actionCompile_Simulate->setText(QApplication::translate("MainWindow", "Compile/Simulate", 0));
+#ifndef QT_NO_TOOLTIP
+        actionCompile_Simulate->setToolTip(QApplication::translate("MainWindow", "Compile/Simulate", 0));
+#endif // QT_NO_TOOLTIP
         tabWidget->setTabText(tabWidget->indexOf(Editor), QApplication::translate("MainWindow", "Editor", 0));
         tabWidget->setTabText(tabWidget->indexOf(Pipeline), QApplication::translate("MainWindow", "Pipeline", 0));
-        toolButton->setText(QApplication::translate("MainWindow", "...", 0));
-        toolButton_3->setText(QApplication::translate("MainWindow", "...", 0));
-        toolButton_2->setText(QApplication::translate("MainWindow", "...", 0));
-        toolButton_4->setText(QApplication::translate("MainWindow", "...", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuView->setTitle(QApplication::translate("MainWindow", "View", 0));
-        toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", 0));
     } // retranslateUi
 
 };

@@ -2,15 +2,16 @@
 #define CODEEDITOR_H
 
 #include <QWidget>
-#include <QTextEdit>
+#include <QPlainTextEdit>
 
-class CodeEditor : public QTextEdit
+class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
 public:
     CodeEditor();
     ~CodeEditor();
-//protected signals:
+signals:
+
 
 };
 

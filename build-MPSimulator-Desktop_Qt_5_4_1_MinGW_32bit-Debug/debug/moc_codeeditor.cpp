@@ -61,7 +61,7 @@ void CodeEditor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
 }
 
 const QMetaObject CodeEditor::staticMetaObject = {
-    { &QTextEdit::staticMetaObject, qt_meta_stringdata_CodeEditor.data,
+    { &QPlainTextEdit::staticMetaObject, qt_meta_stringdata_CodeEditor.data,
       qt_meta_data_CodeEditor,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
@@ -76,12 +76,12 @@ void *CodeEditor::qt_metacast(const char *_clname)
     if (!_clname) return Q_NULLPTR;
     if (!strcmp(_clname, qt_meta_stringdata_CodeEditor.stringdata))
         return static_cast<void*>(const_cast< CodeEditor*>(this));
-    return QTextEdit::qt_metacast(_clname);
+    return QPlainTextEdit::qt_metacast(_clname);
 }
 
 int CodeEditor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QTextEdit::qt_metacall(_c, _id, _a);
+    _id = QPlainTextEdit::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     return _id;
