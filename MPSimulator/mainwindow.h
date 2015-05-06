@@ -29,6 +29,8 @@ private:
     void setEditor();
     void setRegisterTable();
     void saveFile();
+    void addStage(int cycle, QString stage);
+    int notifyNotSaved();
     bool fileSaved;
     Highlighter   *highlighter;
 

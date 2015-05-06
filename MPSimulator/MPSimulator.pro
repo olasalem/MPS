@@ -24,3 +24,5 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 RC_FILE = mpsimulator.rc
+
+RESOURCES = icons.qrc

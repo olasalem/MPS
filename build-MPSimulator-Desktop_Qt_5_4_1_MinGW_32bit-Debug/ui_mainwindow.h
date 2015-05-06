@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
@@ -20,10 +21,9 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
-#include <QtWidgets/QTableView>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -36,15 +36,15 @@ public:
     QAction *actionSave_File;
     QAction *actionCompile_Simulate;
     QWidget *centralWidget;
+    QGridLayout *gridLayout;
     QTabWidget *tabWidget;
     QWidget *Editor;
-    QWidget *horizontalLayoutWidget;
-    QHBoxLayout *horizontalLayout_2;
+    QGridLayout *gridLayout_2;
     QTextEdit *codeEditor;
     QWidget *Pipeline;
-    QWidget *verticalLayoutWidget;
-    QVBoxLayout *verticalLayout;
-    QTableView *pipelineTable;
+    QWidget *horizontalLayoutWidget_2;
+    QHBoxLayout *horizontalLayout;
+    QTableWidget *pipelineTable;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuView;
@@ -64,60 +64,68 @@ public:
         actionOpen_File = new QAction(MainWindow);
         actionOpen_File->setObjectName(QStringLiteral("actionOpen_File"));
         QIcon icon;
-        icon.addFile(QStringLiteral("folder_orange_open.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral(":/Icons/folder_orange_open.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionOpen_File->setIcon(icon);
         actionNew_File = new QAction(MainWindow);
         actionNew_File->setObjectName(QStringLiteral("actionNew_File"));
         QIcon icon1;
-        icon1.addFile(QStringLiteral("new-file.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QStringLiteral(":/Icons/new-file.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionNew_File->setIcon(icon1);
         actionSave_File = new QAction(MainWindow);
         actionSave_File->setObjectName(QStringLiteral("actionSave_File"));
         QIcon icon2;
-        icon2.addFile(QStringLiteral("save_all.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QStringLiteral(":/Icons/save_all.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionSave_File->setIcon(icon2);
         actionCompile_Simulate = new QAction(MainWindow);
         actionCompile_Simulate->setObjectName(QStringLiteral("actionCompile_Simulate"));
         QIcon icon3;
-        icon3.addFile(QStringLiteral("compfile.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QStringLiteral(":/Icons/compfile.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionCompile_Simulate->setIcon(icon3);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        gridLayout = new QGridLayout(centralWidget);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
-        tabWidget->setGeometry(QRect(10, 0, 571, 371));
         Editor = new QWidget();
         Editor->setObjectName(QStringLiteral("Editor"));
-        horizontalLayoutWidget = new QWidget(Editor);
-        horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(10, 10, 541, 321));
-        horizontalLayout_2 = new QHBoxLayout(horizontalLayoutWidget);
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        codeEditor = new QTextEdit(horizontalLayoutWidget);
+        gridLayout_2 = new QGridLayout(Editor);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        codeEditor = new QTextEdit(Editor);
         codeEditor->setObjectName(QStringLiteral("codeEditor"));
+        codeEditor->setMinimumSize(QSize(551, 321));
+        codeEditor->setSizeIncrement(QSize(10, 10));
+        QFont font;
+        font.setFamily(QStringLiteral("Courier"));
+        font.setPointSize(12);
+        codeEditor->setFont(font);
 
-        horizontalLayout_2->addWidget(codeEditor);
+        gridLayout_2->addWidget(codeEditor, 0, 0, 1, 1);
 
         tabWidget->addTab(Editor, QString());
         Pipeline = new QWidget();
         Pipeline->setObjectName(QStringLiteral("Pipeline"));
-        verticalLayoutWidget = new QWidget(Pipeline);
-        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(0, 0, 561, 341));
-        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
-        pipelineTable = new QTableView(verticalLayoutWidget);
+        horizontalLayoutWidget_2 = new QWidget(Pipeline);
+        horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
+        horizontalLayoutWidget_2->setGeometry(QRect(9, 9, 551, 331));
+        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget_2);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        pipelineTable = new QTableWidget(horizontalLayoutWidget_2);
         pipelineTable->setObjectName(QStringLiteral("pipelineTable"));
 
-        verticalLayout->addWidget(pipelineTable);
+        horizontalLayout->addWidget(pipelineTable);
 
         tabWidget->addTab(Pipeline, QString());
+
+        gridLayout->addWidget(tabWidget, 0, 0, 1, 1);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -153,18 +161,26 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         actionOpen_File->setText(QApplication::translate("MainWindow", "Open File", 0));
+        actionOpen_File->setShortcut(QApplication::translate("MainWindow", "Ctrl+O", 0));
         actionNew_File->setText(QApplication::translate("MainWindow", "New File", 0));
 #ifndef QT_NO_TOOLTIP
         actionNew_File->setToolTip(QApplication::translate("MainWindow", "New File", 0));
 #endif // QT_NO_TOOLTIP
+        actionNew_File->setShortcut(QApplication::translate("MainWindow", "Ctrl+N", 0));
         actionSave_File->setText(QApplication::translate("MainWindow", "Save File", 0));
 #ifndef QT_NO_TOOLTIP
         actionSave_File->setToolTip(QApplication::translate("MainWindow", "Save File", 0));
 #endif // QT_NO_TOOLTIP
+        actionSave_File->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", 0));
         actionCompile_Simulate->setText(QApplication::translate("MainWindow", "Compile/Simulate", 0));
 #ifndef QT_NO_TOOLTIP
         actionCompile_Simulate->setToolTip(QApplication::translate("MainWindow", "Compile/Simulate", 0));
 #endif // QT_NO_TOOLTIP
+        codeEditor->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Courier'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8.25pt;\"><br /></p></body></html>", 0));
         tabWidget->setTabText(tabWidget->indexOf(Editor), QApplication::translate("MainWindow", "Editor", 0));
         tabWidget->setTabText(tabWidget->indexOf(Pipeline), QApplication::translate("MainWindow", "Pipeline", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));

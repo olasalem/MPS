@@ -3,7 +3,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
-
+#include <QFileInfo>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -15,11 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setEditor();
     setRegisterTable();
     QMainWindow::setWindowTitle("MPSimulator");
-}
-
-MainWindow::~MainWindow()
-{
-   delete ui;
 }
 
 void MainWindow::setEditor()
@@ -37,14 +32,14 @@ void MainWindow::setRegisterTable()
 
 void MainWindow::saveFile()
 {
-    QString path = QFileDialog::getSaveFileName(this, "Save File", QDir::currentPath(), "*.s");
+    QString path = QFileDialog::getSaveFileName(this, "Save File", QDir::currentPath(), "*.asm");
     QString content = ui->codeEditor->document()->toPlainText();
     qDebug() << content;
     QFile file(path);
-    if (file.open(QIODevice::ReadWrite)){
+    if (file.open(QFile::ReadWrite | QFile::Text | QFile::Truncate)){
         QTextStream data(&file);
         data << content;
-        ui->tabWidget->setTabText(0, "Editor - " + path);
+        ui->tabWidget->setTabText(0, "Editor - " + QFileInfo(file).fileName());
     }
     else{
         qDebug() << "Cannot open file.";
@@ -52,29 +47,40 @@ void MainWindow::saveFile()
 
 }
 
+void MainWindow::addStage(int cycle, QString stage)
+{
+    if(cycle >= ui->pipelineTable->columnCount())
+        ui->pipelineTable->insertColumn(ui->pipelineTable->columnCount());
+}
+
+int MainWindow::notifyNotSaved()
+{
+    QMessageBox msg;
+    msg.setText("The file is not saved.");
+    msg.setInformativeText("The file is not saved, if you proceed now the file will be destroyed. "
+                           "Do You Want to continue?");
+    msg.setStandardButtons(QMessageBox::Save | QMessageBox::Ok | QMessageBox::Cancel);
+    msg.setDefaultButton(QMessageBox::Save);
+    return msg.exec();
+
+}
+
 void MainWindow::on_actionNew_File_triggered()
 {
-    if(!fileSaved){
-        QMessageBox msg;
-        msg.setText("The file is not saved.");
-        msg.setInformativeText("The file is not saved, if you proceed now the file will be destroyed. "
-                               "Do You Want to continue?");
-        msg.setStandardButtons(QMessageBox::Save | QMessageBox::Ok | QMessageBox::Cancel);
-        msg.setDefaultButton(QMessageBox::Save);
-        int response = msg.exec();
-        qDebug() << "The response is " << response;
-        switch(response){
+    if(!fileSaved && ui->codeEditor->document()->blockCount() > 1){
+        switch(notifyNotSaved()){
         case QMessageBox::Save:
-            qDebug() << response << " The Save button was pushed.";
             saveFile();
+            ui->codeEditor->clear();
+            ui->tabWidget->setTabText(0, "Editor - Untitled*");
+            fileSaved = false;
             break;
         case QMessageBox::Ok:
             ui->codeEditor->clear();
             ui->tabWidget->setTabText(0, "Editor - Untitled*");
             fileSaved = false;
             break;
-        case QMessageBox::Cancel:
-            break;
+        default: break;
         }
     }
     else{
@@ -85,12 +91,18 @@ void MainWindow::on_actionNew_File_triggered()
 
 void MainWindow::on_actionOpen_File_triggered()
 {
-    QString path = QFileDialog::getOpenFileName(this, "Open File", QDir::currentPath(), "*.s");
+    if(!fileSaved && ui->codeEditor->document()->blockCount() > 1)
+    {
+       if (notifyNotSaved() == QMessageBox::Save)
+           saveFile();
+    }
+    QString path = QFileDialog::getOpenFileName(this, "Open File", QDir::currentPath(), "*.s *.asm");
     QFile file(path);
     if(file.open(QFile::Text | QFile::ReadOnly)){
         QString content = file.readAll();
         qDebug() << content;
         ui->codeEditor->setText(content);
+        ui->tabWidget->setTabText(0, "Editor - " + QFileInfo(file).fileName());
         fileSaved = true;
         file.close();
     }
@@ -113,4 +125,9 @@ void MainWindow::on_actionCompile_Simulate_triggered()
         msg.exec();
         qDebug() << "The Editor is empty.";
     }
+}
+
+MainWindow::~MainWindow()
+{
+   delete ui;
 }

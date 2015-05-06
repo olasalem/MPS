@@ -10,8 +10,17 @@ class CodeEditor : public QPlainTextEdit
 public:
     CodeEditor();
     ~CodeEditor();
-signals:
+    void lineNumberAreaPaint(QPaintEvent *pevent);
+    int  lineNumberWidth();
 
+protected:
+    void resize(QResizeEvent *revent);
+
+private slots:
+    void updateLine(int lineCount);
+
+private:
+    QWidget *lineNumberArea;
 
 };
 

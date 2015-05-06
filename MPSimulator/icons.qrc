@@ -1,0 +1,8 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>Icons/compfile.png</file>
+        <file>Icons/folder_orange_open.png</file>
+        <file>Icons/new-file.png</file>
+        <file>Icons/save_all.png</file>
+    </qresource>
+</RCC>
