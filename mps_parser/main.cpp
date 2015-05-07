@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
     QFile testFile;
     QVector <inst> vec;
-    testFile.setFileName("/home/ola/Desktop/mps_parser/test.txt");
+    testFile.setFileName("/home/ola/Documents/Study\ Documents/Computer\ Architecture/Project/MPS/mps_parser/test.txt");
     parser fileParser;
     try{
         vec = fileParser.parseFile(testFile);

@@ -21,7 +21,11 @@ SOURCES += main.cpp \
 
 HEADERS += \
     parser.h \
-    inst.h
+    inst.h \
+    Mem_WB.h \
+    IDec_Exec.h \
+    IExec_Mem.h \
+    IF_ID.h
 
 OTHER_FILES += \
     test.txt
