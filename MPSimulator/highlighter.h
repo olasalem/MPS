@@ -23,12 +23,14 @@ protected:
 
     QVector <SyntaxRule> rules;
 
+
     QRegExp commentExpression;
     QRegExp labelExpression;
 
     QTextCharFormat instructionFormat;
     QTextCharFormat commentFormat;
     QTextCharFormat labelFormat;
+    QTextCharFormat invalidFormat;
 };
 
 #endif // HIGHLIGHTER_H

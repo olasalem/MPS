@@ -24,7 +24,7 @@ QVector<inst> parser::parseFile(QFile & instFile) {
     QTextStream  fileStream(&instFile); //the stream of the file
 
 
-    QRegExp inst_3Op("\\s*(ADD|ADDI|XOR|SLT|BLE)\\s+\\$(\\d+)\\s*,\\s*\\$(\\d+)\\s*,\\s*(\\$?\\d+)\\s*"); //to check for instruction wiith three operands
+    QRegExp inst_3Op("\\s*(ADD|ADDI|XOR|SLT|BLE)\\s+\\$(\\d+)\\s*,\\s*\\$(\\d+)\\s*,\\s*(\\$?\\d+)\\s*"); //to check for instruction with three operands
     QRegExp inst_2Op("\\s*(LW|SW)\\s+\\$(\\d+)\\s*,\\s*(\\d+)\\s*\\(\\s*\\$(\\d+)\\s*\\)\\s*"); //to check for instructions with two operands
     QRegExp inst_1Op ("\\s*(J|JAL|JR)\\s+(\\$?\\d+)\\s*"); //to check for instruction with 1 operand
     QRegExp empty("(\\s*)");  //to check for any white char

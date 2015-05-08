@@ -32,27 +32,30 @@ Highlighter::Highlighter(QTextDocument *parent)
                  << "\\bjal\\b" << "\\bjr\\b";
     foreach(const QString &instruction, instructions){
         syntaxRule.pattern = QRegExp(instruction);
+        syntaxRule.pattern.setCaseSensitivity(Qt::CaseInsensitive);
         syntaxRule.format = instructionFormat;
         rules.append(syntaxRule);
     }
-
+    invalidFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+    invalidFormat.setUnderlineColor(Qt::red);
 }
 
 Highlighter::~Highlighter()
 {
-    qDebug() << "Destructing the Highlighter \n";
 }
 
 void Highlighter::highlightBlock(const QString &text)
 {
-    qDebug() << text;
-    foreach (const SyntaxRule &rule, rules){
+    char invalid = 0;
+    foreach(const SyntaxRule &rule, rules){
         int index = rule.pattern.indexIn(text);
+        invalid |= (index != -1);
         while(index >= 0){
             setFormat(index, rule.pattern.matchedLength(), rule.format);
             index = rule.pattern.indexIn(text, index + rule.pattern.matchedLength());
         }
     }
+   if (invalid == 0)
+       setFormat(0, text.size(), invalidFormat);
+
 }
-
-

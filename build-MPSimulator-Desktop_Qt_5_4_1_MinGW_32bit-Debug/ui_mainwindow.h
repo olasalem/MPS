@@ -19,6 +19,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
@@ -35,19 +36,29 @@ public:
     QAction *actionNew_File;
     QAction *actionSave_File;
     QAction *actionCompile_Simulate;
+    QAction *actionNew;
+    QAction *actionSave;
+    QAction *actionSave_as;
+    QAction *actionSave_As;
+    QAction *actionExit;
+    QAction *actionStep_Simulation;
+    QAction *actionNext_Step;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QTabWidget *tabWidget;
     QWidget *Editor;
-    QGridLayout *gridLayout_2;
+    QHBoxLayout *horizontalLayout_3;
     QTextEdit *codeEditor;
+    QWidget *Register;
+    QGridLayout *gridLayout_2;
+    QRadioButton *hexButton;
+    QTableWidget *registerTable;
+    QRadioButton *radioButton;
     QWidget *Pipeline;
-    QWidget *horizontalLayoutWidget_2;
-    QHBoxLayout *horizontalLayout;
+    QGridLayout *gridLayout_3;
     QTableWidget *pipelineTable;
     QMenuBar *menuBar;
     QMenu *menuFile;
-    QMenu *menuView;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -81,6 +92,29 @@ public:
         QIcon icon3;
         icon3.addFile(QStringLiteral(":/Icons/compfile.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionCompile_Simulate->setIcon(icon3);
+        actionNew = new QAction(MainWindow);
+        actionNew->setObjectName(QStringLiteral("actionNew"));
+        actionSave = new QAction(MainWindow);
+        actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionSave_as = new QAction(MainWindow);
+        actionSave_as->setObjectName(QStringLiteral("actionSave_as"));
+        actionSave_As = new QAction(MainWindow);
+        actionSave_As->setObjectName(QStringLiteral("actionSave_As"));
+        actionExit = new QAction(MainWindow);
+        actionExit->setObjectName(QStringLiteral("actionExit"));
+        actionStep_Simulation = new QAction(MainWindow);
+        actionStep_Simulation->setObjectName(QStringLiteral("actionStep_Simulation"));
+        QIcon icon4;
+        icon4.addFile(QStringLiteral(":/Icons/Start.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QStringLiteral(":/Icons/Start.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon4.addFile(QStringLiteral(":/Icons/Start.png"), QSize(), QIcon::Active, QIcon::On);
+        actionStep_Simulation->setIcon(icon4);
+        actionNext_Step = new QAction(MainWindow);
+        actionNext_Step->setObjectName(QStringLiteral("actionNext_Step"));
+        actionNext_Step->setEnabled(false);
+        QIcon icon5;
+        icon5.addFile(QStringLiteral(":/Icons/Next.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionNext_Step->setIcon(icon5);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -91,36 +125,53 @@ public:
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
         Editor = new QWidget();
         Editor->setObjectName(QStringLiteral("Editor"));
-        gridLayout_2 = new QGridLayout(Editor);
+        horizontalLayout_3 = new QHBoxLayout(Editor);
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        codeEditor = new QTextEdit(Editor);
+        codeEditor->setObjectName(QStringLiteral("codeEditor"));
+        QFont font;
+        font.setFamily(QStringLiteral("Courier"));
+        font.setPointSize(10);
+        codeEditor->setFont(font);
+
+        horizontalLayout_3->addWidget(codeEditor);
+
+        tabWidget->addTab(Editor, QString());
+        Register = new QWidget();
+        Register->setObjectName(QStringLiteral("Register"));
+        gridLayout_2 = new QGridLayout(Register);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        codeEditor = new QTextEdit(Editor);
-        codeEditor->setObjectName(QStringLiteral("codeEditor"));
-        codeEditor->setMinimumSize(QSize(551, 321));
-        codeEditor->setSizeIncrement(QSize(10, 10));
-        QFont font;
-        font.setFamily(QStringLiteral("Courier"));
-        font.setPointSize(12);
-        codeEditor->setFont(font);
+        hexButton = new QRadioButton(Register);
+        hexButton->setObjectName(QStringLiteral("hexButton"));
 
-        gridLayout_2->addWidget(codeEditor, 0, 0, 1, 1);
+        gridLayout_2->addWidget(hexButton, 0, 1, 1, 1);
 
-        tabWidget->addTab(Editor, QString());
+        registerTable = new QTableWidget(Register);
+        registerTable->setObjectName(QStringLiteral("registerTable"));
+
+        gridLayout_2->addWidget(registerTable, 0, 0, 1, 1);
+
+        radioButton = new QRadioButton(Register);
+        radioButton->setObjectName(QStringLiteral("radioButton"));
+        radioButton->setChecked(true);
+
+        gridLayout_2->addWidget(radioButton, 0, 2, 1, 1);
+
+        tabWidget->addTab(Register, QString());
         Pipeline = new QWidget();
         Pipeline->setObjectName(QStringLiteral("Pipeline"));
-        horizontalLayoutWidget_2 = new QWidget(Pipeline);
-        horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
-        horizontalLayoutWidget_2->setGeometry(QRect(9, 9, 551, 331));
-        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget_2);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        pipelineTable = new QTableWidget(horizontalLayoutWidget_2);
+        gridLayout_3 = new QGridLayout(Pipeline);
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setContentsMargins(11, 11, 11, 11);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        pipelineTable = new QTableWidget(Pipeline);
         pipelineTable->setObjectName(QStringLiteral("pipelineTable"));
 
-        horizontalLayout->addWidget(pipelineTable);
+        gridLayout_3->addWidget(pipelineTable, 0, 1, 1, 1);
 
         tabWidget->addTab(Pipeline, QString());
 
@@ -132,8 +183,6 @@ public:
         menuBar->setGeometry(QRect(0, 0, 597, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
-        menuView = new QMenu(menuBar);
-        menuView->setObjectName(QStringLiteral("menuView"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -143,11 +192,18 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuFile->menuAction());
-        menuBar->addAction(menuView->menuAction());
+        menuFile->addAction(actionNew);
+        menuFile->addAction(actionSave);
+        menuFile->addAction(actionSave_as);
+        menuFile->addAction(actionSave_As);
+        menuFile->addSeparator();
+        menuFile->addAction(actionExit);
         mainToolBar->addAction(actionOpen_File);
         mainToolBar->addAction(actionNew_File);
         mainToolBar->addAction(actionSave_File);
         mainToolBar->addAction(actionCompile_Simulate);
+        mainToolBar->addAction(actionStep_Simulation);
+        mainToolBar->addAction(actionNext_Step);
 
         retranslateUi(MainWindow);
 
@@ -176,15 +232,25 @@ public:
 #ifndef QT_NO_TOOLTIP
         actionCompile_Simulate->setToolTip(QApplication::translate("MainWindow", "Compile/Simulate", 0));
 #endif // QT_NO_TOOLTIP
-        codeEditor->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Courier'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8.25pt;\"><br /></p></body></html>", 0));
+        actionNew->setText(QApplication::translate("MainWindow", "New", 0));
+        actionSave->setText(QApplication::translate("MainWindow", "Open", 0));
+        actionSave_as->setText(QApplication::translate("MainWindow", "Save", 0));
+        actionSave_As->setText(QApplication::translate("MainWindow", "Save As", 0));
+        actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
+        actionStep_Simulation->setText(QApplication::translate("MainWindow", "Step Simulation", 0));
+#ifndef QT_NO_TOOLTIP
+        actionStep_Simulation->setToolTip(QApplication::translate("MainWindow", "Start step by step simulation", 0));
+#endif // QT_NO_TOOLTIP
+        actionNext_Step->setText(QApplication::translate("MainWindow", "Next Step", 0));
+#ifndef QT_NO_TOOLTIP
+        actionNext_Step->setToolTip(QApplication::translate("MainWindow", "Go to the next step in simulation", 0));
+#endif // QT_NO_TOOLTIP
         tabWidget->setTabText(tabWidget->indexOf(Editor), QApplication::translate("MainWindow", "Editor", 0));
+        hexButton->setText(QApplication::translate("MainWindow", "Hexadecimal", 0));
+        radioButton->setText(QApplication::translate("MainWindow", "Decimal", 0));
+        tabWidget->setTabText(tabWidget->indexOf(Register), QApplication::translate("MainWindow", "Registers", 0));
         tabWidget->setTabText(tabWidget->indexOf(Pipeline), QApplication::translate("MainWindow", "Pipeline", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
-        menuView->setTitle(QApplication::translate("MainWindow", "View", 0));
     } // retranslateUi
 
 };
