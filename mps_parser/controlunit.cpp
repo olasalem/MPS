@@ -24,7 +24,7 @@ void ControlUnit::Set(inst Curr_Inst)
        ALUSrc = 1;
    }
    // Branch
-   if(Curr_Inst.jAddress){
+   if(Curr_Inst.instType == "BLE")){
        Branch = 1;
        RegWrite = 0;
    }
