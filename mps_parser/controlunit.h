@@ -12,7 +12,6 @@ public:
     void Set(inst );  // to set the signals, create an object of buffer 1 , Send the The instruction that exists in this buffer to this function
     void Reset();
     ~ControlUnit();
-private:
     bool RegDst, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
     int ALUOp;
 };
