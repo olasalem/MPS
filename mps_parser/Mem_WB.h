@@ -12,9 +12,9 @@ public:
 	}
 	void Set_Result(int R1=0,int R2=0,int R3=0)*/
 	~Mem_WB();
-	int Mem_Result, Reg_Result;      // results to be saved in the Reg file and the Data memory
+	int Mem_Result, Alu_Result;      // results to be saved in the Reg file and the Data memory
 	int Reg_destination;            // stores the Destination Reg
-	bool WBReg, WBMem;             // write enables for the reg file and data memory
-private:
+	bool WBReg;
+	bool MemtoReg;             // write enables for the reg file and data memory
 	
 };
