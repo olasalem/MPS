@@ -21,8 +21,8 @@ void ControlUnit::Set(inst Curr_Inst)
     {
         Reset();   // Initially reset all
     //RegDst & ALUSrc
-    if(Curr_Inst.instTyp == "ADD" || Curr_Inst.instTyp == "SLT" || Curr_Inst.instTyp == "XOR"){
-       RegDst = 0;
+    if(Curr_Inst.instTyp == "ADD" || Curr_Inst.instTyp == "SLT" || Curr_Inst.instTyp == "XOR"){ //Rtype , RegDst = ALUSrc =0
+       RegDst = 0;                
        ALUSrc = 0;
       // RegWrite = 1;
    }
