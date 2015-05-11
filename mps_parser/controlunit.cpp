@@ -20,7 +20,7 @@ void ControlUnit::Set(inst Curr_Inst)
 {
         Reset();   // Initially reset all
     //RegDst & ALUSrc
-    if(Curr_Inst.instTyp == "ADD" || Curr_Inst.instTyp == "SLT" || Curr_Inst.instTyp == "XOR"){ //Rtype , RegDst = ALUSrc =0
+    if(Curr_Inst.instType == "ADD" || Curr_Inst.instType == "SLT" || Curr_Inst.instType == "XOR"){ //Rtype , RegDst = ALUSrc =0
        RegDst = 0;                
        ALUSrc = 0;
       // RegWrite = 1;
@@ -45,7 +45,7 @@ void ControlUnit::Set(inst Curr_Inst)
        RegWrite = 0;
    }
    //ALUOp
-   if(Curr_Inst.instType == "ADD" || uff1.Curr_Instruction.instType == "ADDI" ){   // 1 = Addition
+   if(Curr_Inst.instType == "ADD" || Curr_Inst.instType == "ADDI" ){   // 1 = Addition
        ALUOp = 1;
    }
    else if(Curr_Inst.instType == "XOR") {  // 2 = XORing
