@@ -26,8 +26,9 @@ QVector<inst> parser::parseFile(QFile & instFile) {
 
     QRegExp inst_3Op("\\s*(ADD|ADDI|XOR|SLT|BLE)\\s+\\$(\\d+)\\s*,\\s*\\$(\\d+)\\s*,\\s*(\\$?\\d+)\\s*"); //to check for instruction with three operands
     QRegExp inst_2Op("\\s*(LW|SW)\\s+\\$(\\d+)\\s*,\\s*(\\d+)\\s*\\(\\s*\\$(\\d+)\\s*\\)\\s*"); //to check for instructions with two operands
-    QRegExp inst_1Op ("\\s*(J|JAL|JR)\\s+(\\$?\\d+)\\s*"); //to check for instruction with 1 operand
-    QRegExp empty("(\\s*)");  //to check for any white char
+    QRegExp inst_1Op ("\\s*(J|JAL|JR|JUMP_PROCEDURE)\\s+(\\$?\\d+)\\s*"); //to check for instruction with 1 operand
+    QRegExp inst_0Op ("^\\s*(RETURN_PROCEDURE)\\s*$");
+    QRegExp empty("^(\\s*)$");  //to check for any white char
     QString fileError = "An Error Occurred, Problem with the File"; //to be thrown if an error occurred when openning the file
     QString invalidSyntaxError = "An Error Occurred, Invalid Instruction Syntax at Line: "; //to be thrown if invalid syntax found
     QString RegIndexError = "An Error Occurred, Register Index Out of Bounds at Line: "; //to be thrown if register index is out of bound
@@ -93,12 +94,18 @@ QVector<inst> parser::parseFile(QFile & instFile) {
                     if ( !checkReg(temp.rs) ) throw (RegIndexError + QString::number(lineNumber));
 
 
-                } else { // J/JAL
+                } else { // J/JAL/JUMP_PROCEDURE
                     if (inst_1Op.cap(2).at(0) == '$') throw (invalidSyntaxError + QString::number(lineNumber));
                     temp.rs = 0;
                     temp.jAddress = atoi( inst_1Op.cap(2).toStdString().c_str() );
 
                 }
+
+            } else if(inst_0Op.indexIn(line) != -1) { //RETURN_PROCEDURE
+                    temp.instruction = inst_0Op.cap(0);
+                    temp.instType = inst_1Op.cap(1);
+                    temp.rs = temp.rt = temp.rd = temp.imm = temp.jAddress = 0;
+
 
             } else if (empty.indexIn(line) != -1) { //match white char
 
@@ -122,5 +129,5 @@ QVector<inst> parser::parseFile(QFile & instFile) {
 
 // "\s*(ADD|ADDI|XOR|SLT|BLE)\s+\$(\d+)\s*,\s*\$(\d+)\s*,\s*\$?(\d+)\s*"
 // "\s*(LW|SW)\s+\$(\d+)\s*,\s*(\d+)\s*\(\s*\$(\d+)\s*\)\s*"
-// "\s*(J|JAL|JR)\s+(\$?\d+)\s*"
-
+// "\s*(J|JAL|JR|JUMP_PROCEDURE)\s+(\$?\d+)\s*"
+// "^\s*(RETURN_PROCEDURE)\s*$"
