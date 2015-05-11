@@ -15,7 +15,6 @@ public:
 	int Mem_Result, Reg_Result;      // results to be saved in the Reg file and the Data memory
 	int Reg_destination;            // stores the Destination Reg
 	bool WBReg, WBMem;             // write enables for the reg file and data memory
-	int PC;
 private:
 	
 };
