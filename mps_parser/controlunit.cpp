@@ -13,6 +13,7 @@ void ControlUnit::Reset()
     MemWrite = false;
     ALUSrc = true;
     RegWrite = true;
+    Jump=false;
     ALUOp = 0;
 }
 void ControlUnit::Set(inst Curr_Inst)
@@ -25,12 +26,13 @@ void ControlUnit::Set(inst Curr_Inst)
       // RegWrite = 1;
    }
    // Branch
-   if(Curr_Inst.instType == "BEQ"){
+   if(Curr_Inst.instType == "BLE"){
        Branch = 1;
        RegWrite = 0;
    }
-   if(Curr_Inst.instType == "J" || Curr_Inst.instType == "JR"){
-       RegWrite = 0;
+   if(Curr_Inst.instType == "J" || Curr_Inst.instType == "JR" || Curr_Inst.instType == "JAL" ){
+      // RegWrite = 0;
+      Jump=true;
    }
    //MemRead & MemReg
    if(Curr_Inst.instType == "LW" ){
@@ -55,7 +57,7 @@ void ControlUnit::Set(inst Curr_Inst)
    else if(Curr_Inst.instType == "SLT") {  // 4 = SLT
        ALUOp = 4;
    }
-   else if(Curr_Inst.instType == "BEQ") {  // 5 = BLE
+   else if(Curr_Inst.instType == "BLE") {  // 5 = BLE
        ALUOp = 5;
    }
    else if(Curr_Inst.instType == "J") {  // 6 = Jump
