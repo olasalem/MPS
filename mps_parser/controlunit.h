@@ -4,14 +4,14 @@
 #include "IDec_Exec.h"
 #include "IExec_Mem.h"
 #include "Mem_WB.h"
+#include "inst.h"
 class ControlUnit
 {
 public:
     ControlUnit();
-    void Set(bool, bool , bool , bool, bool, bool, bool , int );
+    void Set(inst );  // to set the signals, create an object of buffer 1 , Send the The instruction that exists in this buffer to this function
     void Reset();
     ~ControlUnit();
-private:
     bool RegDst, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
     int ALUOp;
 };

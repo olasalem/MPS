@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
 #include "highlighter.h"
 namespace Ui {
     class MainWindow;
@@ -15,6 +14,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void startSimulation();
+    void openFile();
+    void newFile();
 private slots:
     void on_actionNew_File_triggered();
 
@@ -24,15 +26,29 @@ private slots:
 
     void on_actionCompile_Simulate_triggered();
 
+    void on_actionStep_Simulation_triggered();
+
+    void on_actionNext_Step_triggered();
+
+    void on_hexButton_toggled(bool checked);
+
 private:
+
     Ui::MainWindow *ui;
+    Highlighter   *highlighter;
+    bool fileSaved;
+    QStringList pipelineStages;
+    QString currentPath;
+    /*Testing*/
+    QStringList registers;
+
     void setEditor();
     void setRegisterTable();
     void saveFile();
-    void addStage(int cycle, QString stage);
+    void addStage();
     int notifyNotSaved();
-    bool fileSaved;
-    Highlighter   *highlighter;
+
+
 
 };
 

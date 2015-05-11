@@ -1,8 +1,10 @@
-<!DOCTYPE RCC><RCC version="1.0">
-    <qresource>
+<RCC>
+    <qresource prefix="/">
         <file>Icons/compfile.png</file>
         <file>Icons/folder_orange_open.png</file>
         <file>Icons/new-file.png</file>
         <file>Icons/save_all.png</file>
+        <file>Icons/Next.png</file>
+        <file>Icons/Start.png</file>
     </qresource>
 </RCC>
