@@ -13,6 +13,7 @@ public:
 		Rt_Value =0;
 		WBReg = false;
 		MemWrite = MemRead = false;
+		RegDst=false;
 	}
 	~IDec_Exec();
 	int Rs, RtReg, RtImm, Rd;         // the four registers that result from the decoding
