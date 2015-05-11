@@ -17,21 +17,27 @@ void ControlUnit::Reset()
 }
 void ControlUnit::Set(inst Curr_Inst)
 {
-    Reset();   // Initially reset all
+    void ControlUnit::Set(inst Curr_Inst)
+    {
+        Reset();   // Initially reset all
     //RegDst & ALUSrc
-   if(Curr_Inst.imm==0){
+    if(Curr_Inst.imm==0){
        RegDst = 1;
        ALUSrc = 1;
+      // RegWrite = 1;
    }
    // Branch
-   if(Curr_Inst.instType == "BLE")){
+   if(Curr_Inst.instType == "BLE"){
        Branch = 1;
+       RegWrite = 0;
+   }
+   if(Curr_Inst.instType == "J" || Curr_Inst.instType == "JR"){
        RegWrite = 0;
    }
    //MemRead & MemReg
    if(Curr_Inst.instType == "LW" ){
        MemRead = MemtoReg = 1;
-       RegWrite = 1;
+     //  RegWrite = 1;
    }
    //MemWrite & RegWrite
    if(Curr_Inst.instType == "SW"){
@@ -70,3 +76,4 @@ void ControlUnit::Set(inst Curr_Inst)
 ControlUnit::~ControlUnit()
 {
 }
+
