@@ -13,4 +13,5 @@ public:
 	int Reg_destination;         // stores the Destination Reg
 	int Branch;
 	int PC;
+	int Rt_Value;
 };
