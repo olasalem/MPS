@@ -17,8 +17,6 @@ void ControlUnit::Reset()
 }
 void ControlUnit::Set(inst Curr_Inst)
 {
-    void ControlUnit::Set(inst Curr_Inst)
-    {
         Reset();   // Initially reset all
     //RegDst & ALUSrc
     if(Curr_Inst.instTyp == "ADD" || Curr_Inst.instTyp == "SLT" || Curr_Inst.instTyp == "XOR"){ //Rtype , RegDst = ALUSrc =0
