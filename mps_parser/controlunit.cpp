@@ -68,7 +68,13 @@ void ControlUnit::Set(inst Curr_Inst)
    }
    else if(Curr_Inst.instType == "JR") {  // 8 = JR
        ALUOp = 8;
-   }
+    }
+    else if(Curr_Inst.instType == "JUMP_PROCEDURE") {  // 9 = Jump procedure
+       ALUOp = 9;
+    }
+    else if(Curr_Inst.instType == "RETURN_PROCEDURE") {  // 10 = Return Procedure
+       ALUOp = 10;
+    }
    else {
        ALUOp = 0;           // Invalid Instruction
    }
