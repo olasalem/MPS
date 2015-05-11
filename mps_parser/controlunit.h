@@ -13,8 +13,9 @@ public:
     void Reset();
     ~ControlUnit();
    // int Get_Type(inst);
-    bool RegDst, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
+    bool RegDst, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite,Jump;
     int ALUOp;
+    
 };
 /* void Forwarding()
     {
