@@ -24,4 +24,5 @@ public:
 	bool AluSrc;
 	int AluOP;
 	int PC;
+	int RegDst;
 };
