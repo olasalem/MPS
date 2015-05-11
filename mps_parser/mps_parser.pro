@@ -25,7 +25,11 @@ HEADERS += \
     Mem_WB.h \
     IDec_Exec.h \
     IExec_Mem.h \
-    IF_ID.h
+    IF_ID.h \
+    ../../../../../../Desktop/regfile.h \
+    ../../../../../../Desktop/DataMem.h \
+    DataMem.h \
+    regfile.h
 
 OTHER_FILES += \
     test.txt
