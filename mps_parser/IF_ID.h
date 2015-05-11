@@ -10,4 +10,5 @@ public:
 	}
 	~Ifetch_Decode();
 	Inst Curr_Instruction;
+	int PC;
 };
