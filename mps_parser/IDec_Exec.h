@@ -12,11 +12,16 @@ public:
 		Rs_Value = 0;
 		Rt_Value =0;
 		WBReg = false;
-		WBMem = false;
+		MemWrite = MemRead = false;
 	}
 	~IDec_Exec();
 	int Rs, RtReg, RtImm, Rd;         // the four registers that result from the decoding
 	int Rs_Value,Rt_Value;
-	bool WBReg, WBMem;           // write enables for the reg file and data memory
+	bool WBReg;
+	bool MemWrite;         // == WBMem // write enables for the data memory
+	bool MemRead;     // == MemtoReg // to read from memory to reg (LW)
+	bool Branch; 
+	bool AluSrc;
+	int AluOP;
 	int PC;
 };
