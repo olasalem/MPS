@@ -1,0 +1,50 @@
+bool StallFlag = false;
+void Forwarding()
+    {
+        if (buff2.Rs == buff3.Reg_destination )
+        {
+            if(buff3.MemtoReg)      // Stall if insruction before reads from memory
+            {
+                StallFlag = true;
+            }
+            else
+            {
+                reg[Rs] = buff3.Res_Alu;
+            }
+        if (buff2.RtReg == buff3.Reg_destination)
+        {
+            if(buff3.MemtoReg)      // Stall if insruction before reads from memory
+            {
+                StallFlag = true;
+            }
+            else
+            {
+                reg[RtReg] = buff3.Res_Alu;
+            }
+         }
+        if (buff2.Rs == buff4.Reg_destination)
+        {
+            if(buff3.MemtoReg)
+            {
+                reg[Rs] = buff4.Mem_Result;
+            }
+            else
+            {
+                reg[Rs] = buff4.Alu_Result;
+            }
+        }
+        if (buff2.Rs == buff4.Reg_destination)
+        {
+            if(buff3.MemtoReg)
+            {
+                reg[RtReg] = buff4.Mem_Result;
+            }
+            else
+            {
+                reg[RtReg] = buff4.Alu_Result;
+            }
+        }
+    }
+  if(StallFlag){
+
+  }
