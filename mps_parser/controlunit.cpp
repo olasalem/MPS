@@ -25,7 +25,7 @@ void ControlUnit::Set(inst Curr_Inst)
       // RegWrite = 1;
    }
    // Branch
-   if(Curr_Inst.instType == "BLE"){
+   if(Curr_Inst.instType == "BEQ"){
        Branch = 1;
        RegWrite = 0;
    }
@@ -55,7 +55,7 @@ void ControlUnit::Set(inst Curr_Inst)
    else if(Curr_Inst.instType == "SLT") {  // 4 = SLT
        ALUOp = 4;
    }
-   else if(Curr_Inst.instType == "BLE") {  // 5 = BLE
+   else if(Curr_Inst.instType == "BEQ") {  // 5 = BLE
        ALUOp = 5;
    }
    else if(Curr_Inst.instType == "J") {  // 6 = Jump
