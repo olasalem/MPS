@@ -18,4 +18,5 @@ public:
 	int Rs, RtReg, RtImm, Rd;         // the four registers that result from the decoding
 	int Rs_Value,Rt_Value;
 	bool WBReg, WBMem;           // write enables for the reg file and data memory
+	int PC;
 };
