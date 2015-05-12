@@ -3,10 +3,6 @@
 
 CPU::CPU(){}
 
-CPU::CPU(const QVector<inst>& v){
-    MyIM = v;
-}
-
 CPU::~CPU(){}
 
 /* NOT NEEDED
@@ -99,13 +95,13 @@ void CPU::ALU(){
         case 3: //lw OR SW
             if(buffer2.AluSrc)
             result = buffer2.Rs_Value + buffer2.RtImm;//make sure
-            else throw ("error");
+            else cout<<"error"<<endl;
             break;
         case 4: //slt
             if(buffer2.Rs_Value<buffer2.Rt_Value) result=1;
             else result=0;
             break;
-        case 10:
+        /*case 10:
             //return hatt3emel f alu walla mem
         try{
 
@@ -136,7 +132,7 @@ void CPU::ALU2()
         switch(MyCU.ALUOp){
         case 6: //j
             result2 = buffer1.Curr_Instruction.jAddress; //pc = jaddress
-            break;
+            brek;
         case 7: //jal
              result2 = buffer1.Curr_Instruction.jAddress;
              MyReg[31]=buffer1.PC+1;//we return to next instruction not the current pc which is the location of jal
@@ -152,11 +148,15 @@ void CPU::ALU2()
                 qDebug()<<Error;
 
             }
+        case 10:
+            //return hatt3emel f alu walla mem
+            try{
 
-
-
-
-
+                int returnPoint = st.pop();
+                result2 = returnPoint;
+            } catch (QString Error) {
+                qDebug() <<Error;
+            }
 
         }
 
