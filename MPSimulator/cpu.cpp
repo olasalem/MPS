@@ -2,8 +2,9 @@
 #include <QtDebug>
 #include <iostream>
 #include <QPair>
+using namespace std;
 CPU::CPU(){}
-CPU::CPU(const QVector<inst>& v){
+CPU::CPU(const QVector<Instruction>& v){
     MyIM = v;
 }
 
@@ -26,7 +27,7 @@ void CPU::Up_PC()
     cout<<"Why not?"<< PC_p <<'\n';
 }
 
-void CPU::Update_buffer1(inst m)
+void CPU::Update_buffer1(Instruction m)
 {
     buffer1.Curr_Instruction = m;
     buffer1.PC = PC_p;
