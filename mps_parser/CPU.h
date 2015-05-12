@@ -9,7 +9,7 @@
 #include "IExec_Mem.h"
 #include "IF_ID.h"
 #include "Mem_WB.h"
-
+#include "stack.h"
 class CPU{
 private:
     DataMem MyMem;
@@ -21,6 +21,7 @@ public:
     IDec_Exec buffer2;
     IExec_Mem buffer3;
     Mem_WB buffer4;
+    stack st;
     inst current;
     int PC; // take pc
     int result, result2;
@@ -39,6 +40,7 @@ public:
     void Up_Memory();
     void Up_Reg();
     void Execute();
+    void Forwarding();
 
 };
 
