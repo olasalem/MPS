@@ -4,8 +4,8 @@ using namespace std;
 class IExec_Mem
 {
 public:
-	IExec_Mem();
-	~IExec_Mem();
+    IExec_Mem(){}
+    ~IExec_Mem(){}
 	bool WBReg;            
 	bool MemtoReg;          // MemRead
 	bool MemWrite;          // WBMem

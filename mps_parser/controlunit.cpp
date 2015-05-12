@@ -30,7 +30,7 @@ void ControlUnit::Set(inst Curr_Inst)
        Branch = 1;
        RegWrite = 0;
    }
-   if(Curr_Inst.instType == "J" || Curr_Inst.instType == "JR" || Curr_Inst.instType == "JAL" ){
+   if(Curr_Inst.instType == "J" || Curr_Inst.instType == "JR" || Curr_Inst.instType == "JAL" || Curr_Inst.instType == "JUMP_PROCEDURE" || Curr_Inst.instType == "RETURN_PROCEDURE" ){
       // RegWrite = 0;
       Jump=true;
    }

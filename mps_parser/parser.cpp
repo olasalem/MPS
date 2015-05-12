@@ -127,7 +127,7 @@ QVector<inst> parser::parseFile(QFile & instFile) {
 }
 
 
-// "\s*(ADD|ADDI|XOR|SLT|BLE)\s+\$(\d+)\s*,\s*\$(\d+)\s*,\s*\$?(\d+)\s*"
-// "\s*(LW|SW)\s+\$(\d+)\s*,\s*(\d+)\s*\(\s*\$(\d+)\s*\)\s*"
-// "\s*(J|JAL|JR|JUMP_PROCEDURE)\s+(\$?\d+)\s*"
+// "\s*(ADD|ADDI|XOR|SLT|BLE)\s+\$([a-zA-Z]*\d*)\s*,\s*\$([a-zA-Z]*\d*)\s*,\s*\$?([a-zA-Z]*\d*)\s*"
+// "\s*(LW|SW)\s+\$([a-zA-Z]*\d*)\s*,\s*(\d*)\s*\(\s*\$([a-zA-Z]*\d*)\s*\)\s*"
+// "\s*(J|JAL|JR|JUMP_PROCEDURE)\s+(\$?[a-zA-Z]*\d*)\s*"
 // "^\s*(RETURN_PROCEDURE)\s*$"

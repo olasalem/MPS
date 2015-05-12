@@ -10,6 +10,7 @@
 #include "IF_ID.h"
 #include "Mem_WB.h"
 #include "stack.h"
+#include <QVector>
 class CPU{
 private:
     DataMem MyMem;
@@ -28,6 +29,7 @@ public:
     int Mem_res;
 
     CPU();
+    CPU(const QVector<inst>& v);
     ~CPU();
     inst Current();
     void ALU();

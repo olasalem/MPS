@@ -3,6 +3,10 @@
 
 CPU::CPU(){}
 
+CPU::CPU(const QVector<inst>& v){
+    MyIM = v;
+}
+
 CPU::~CPU(){}
 
 /* NOT NEEDED
@@ -95,7 +99,7 @@ void CPU::ALU(){
         case 3: //lw OR SW
             if(buffer2.AluSrc)
             result = buffer2.Rs_Value + buffer2.RtImm;//make sure
-            else cout<<"error"<<endl;
+            else throw ("error");
             break;
         case 4: //slt
             if(buffer2.Rs_Value<buffer2.Rt_Value) result=1;
@@ -132,7 +136,7 @@ void CPU::ALU2()
         switch(MyCU.ALUOp){
         case 6: //j
             result2 = buffer1.Curr_Instruction.jAddress; //pc = jaddress
-            brek;
+            break;
         case 7: //jal
              result2 = buffer1.Curr_Instruction.jAddress;
              MyReg[31]=buffer1.PC+1;//we return to next instruction not the current pc which is the location of jal
@@ -230,7 +234,7 @@ void CPU::Execute()
     clk++;
     Up_PC();
 
-    while(PC < MyIM[MyIM.size()]) {
+    while(PC < MyIM.size()) {
         // WB
         Up_Reg();
         // MEM
@@ -301,7 +305,7 @@ void CPU:: Forwarding()
             }
             else
             {
-                buffer2.Rt_Value = buff3.Res_Alu;
+                buffer2.Rt_Value = buffer3.Res_Alu;
             }
          }
         if (buffer2.Rs == buffer4.Reg_destination)
@@ -315,7 +319,7 @@ void CPU:: Forwarding()
                 buffer2.Rs_Value = buffer4.Alu_Result;
             }
         }
-        if (buffer2.RtReg == buff4.Reg_destination)
+        if (buffer2.RtReg == buffer4.Reg_destination)
         {
             if(buffer4.MemtoReg)
             {
