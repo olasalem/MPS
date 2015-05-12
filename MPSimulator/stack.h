@@ -5,7 +5,7 @@ class Stack
 {
 public:
         Stack();
-        Stack(const stack &);
+        Stack(const Stack &);
         ~Stack();
         bool isEmpty() const;
         bool isFull() const;

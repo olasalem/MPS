@@ -29,7 +29,8 @@ Highlighter::Highlighter(QTextDocument *parent)
     instructions << "\\badd\\b" << "\\baddi\\b" << "\\bsub\\b"
                  << "\\bxor\\b" << "\\blw\\b" << "\\bsw\\b"
                  << "\\bble\\b" << "\\bj\\b" << "\\bslt\\b"
-                 << "\\bjal\\b" << "\\bjr\\b";
+                 << "\\bjal\\b" << "\\bjr\\b" << "\\bJUMP_PROCEDURE\\b"
+                 << "\\bRETURN_PROCEDURE\\b";
     foreach(const QString &instruction, instructions){
         syntaxRule.pattern = QRegExp(instruction);
         syntaxRule.pattern.setCaseSensitivity(Qt::CaseInsensitive);

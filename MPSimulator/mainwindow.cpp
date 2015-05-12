@@ -49,8 +49,10 @@ void MainWindow::setRegisterTable()
     ui->registerTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     //ui->registerTable->resizeColumnsToContents();
    for (int i = 0; i < 32; ++i){
+       QString registerValue;
        ui->registerTable->setItem(i, 0, new QTableWidgetItem(registers[i]));
-       ui->registerTable->setItem(i, 1, new QTableWidgetItem("0"));
+       ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + registerValue.setNum(registerFile[i])));
+
    }
 
 }
@@ -260,15 +262,14 @@ void MainWindow::on_actionNext_Step_triggered()
 
 void MainWindow::on_hexButton_toggled(bool checked)
 {
+    QString registerValue;
     if(checked)
         for(int i = 0; i < 32; ++i){
-            QString hex;
-            hex.setNum(12, 16);
-            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + hex.toUpper()));
+            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + registerValue.setNum(registerFile[i], 16).toUpper()));
         }
     else
         for(int i = 0; i < 32; ++i){
-            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x12"));
+            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + registerValue.setNum(registerFile[i])));
         }
 
 }

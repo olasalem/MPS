@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "highlighter.h"
+#include "regfile.h"
 namespace Ui {
     class MainWindow;
 }
@@ -35,13 +36,14 @@ private slots:
 
 private:
 
-    Ui::MainWindow *ui;
-    Highlighter   *highlighter;
     bool fileSaved;
-    QStringList pipelineStages;
+    Ui::MainWindow *ui;
     QString currentPath;
-    /*Testing*/
     QStringList registers;
+    QStringList pipelineStages;
+    Highlighter   *highlighter;
+    RegFile registerFile;
+
 
     void setEditor();
     void setRegisterTable();

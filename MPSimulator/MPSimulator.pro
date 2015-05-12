@@ -15,12 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
         highlighter.cpp \
-    parser.cpp
+    parser.cpp \
+    stack.cpp
 
 HEADERS  += mainwindow.h \
     highlighter.h \
     parser.h \
-    instruction.h
+    instruction.h \
+    stack.h \
+    regfile.h
 
 FORMS    += mainwindow.ui
 
