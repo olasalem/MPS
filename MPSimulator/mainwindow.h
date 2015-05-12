@@ -38,6 +38,8 @@ private slots:
 private:
 
     bool fileSaved;
+    bool stalled;
+    bool isStart;
     Ui::MainWindow *ui;
     QString currentPath;
     QStringList registers;

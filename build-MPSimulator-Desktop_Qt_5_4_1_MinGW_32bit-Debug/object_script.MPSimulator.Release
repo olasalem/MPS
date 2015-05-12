@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\highlighter.o
+./release\parser.o
+./release\stack.o
+./release\cpu.o
+./release\controlunit.o
+./release\qrc_icons.o
+./release\moc_mainwindow.o
+./release\moc_highlighter.o
+);

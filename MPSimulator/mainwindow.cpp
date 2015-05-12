@@ -14,10 +14,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    isStart = true;
     setEditor();
     setRegisterTable();
     setDataMemory();
     QMainWindow::setWindowTitle("MPSimulator");
+    isStart = false;
 }
 
 void MainWindow::setEditor()
@@ -29,43 +31,46 @@ void MainWindow::setEditor()
 
 void MainWindow::setRegisterTable()
 {
-    qDebug() << "In setRegiserTable function.";
-    registers << "$zero" << "$at" << "$v0"
-              << "$v1" << "$a0" << "$a1"
-              << "$a2" << "$a3" << "$t0"
-              << "$t1" << "$t2" << "$t3"
-              << "$t4" << "$t5" << "$t6"
-              << "$t7" << "$t8" << "$t9"
-              << "$s0" << "$s1" << "$s2"
-              << "$s3" << "$s4" << "$s5"
-              << "$s6" << "$s7" << "$s8"
-              << "$k0" << "$k1" << "$gp"
-              << "$sp" << "$fp" << "$ra";
-    QStringList registerHeader;
-    registerHeader << "Register" << "Value";
-    ui->registerTable->setRowCount(32);
-    ui->registerTable->setColumnCount(2);
-    ui->registerTable->setHorizontalHeaderLabels(registerHeader);
-    ui->registerTable->verticalHeader()->setVisible(false);
-    ui->registerTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-   for (int i = 0; i < 32; ++i){
-       QString registerValue;
-       ui->registerTable->setItem(i, 0, new QTableWidgetItem(registers[i]));
-       ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + registerValue.setNum(registerFile[i])));
+    if (isStart){
+        registers << "$zero" << "$at" << "$v0"
+                  << "$v1" << "$a0" << "$a1"
+                  << "$a2" << "$a3" << "$t0"
+                  << "$t1" << "$t2" << "$t3"
+                  << "$t4" << "$t5" << "$t6"
+                  << "$t7" << "$t8" << "$t9"
+                  << "$s0" << "$s1" << "$s2"
+                  << "$s3" << "$s4" << "$s5"
+                  << "$s6" << "$s7" << "$s8"
+                  << "$k0" << "$k1" << "$gp"
+                  << "$sp" << "$fp" << "$ra";
+        QStringList registerHeader;
+        registerHeader << "Register" << "Value";
+        ui->registerTable->setRowCount(32);
+        ui->registerTable->setColumnCount(2);
+        ui->registerTable->setHorizontalHeaderLabels(registerHeader);
+        ui->registerTable->verticalHeader()->setVisible(false);
+        ui->registerTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    }
+    for (int i = 0; i < 32; ++i){
+        QString registerValue;
+        ui->registerTable->setItem(i, 0, new QTableWidgetItem(registers[i]));
+        ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + registerValue.setNum(registerFile[i])));
 
-   }
+    }
 
 }
 
 void MainWindow::setDataMemory()
 {
-    QStringList dataHeaders;
-    dataHeaders << "Address" << "Value";
-    ui->dataMemTable->setRowCount(1024);
-    ui->dataMemTable->setColumnCount(2);
-    ui->dataMemTable->setHorizontalHeaderLabels(dataHeaders);
-    ui->dataMemTable->verticalHeader()->setVisible(false);
-    ui->dataMemTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    if (isStart){
+        QStringList dataHeaders;
+        dataHeaders << "Address" << "Value";
+        ui->dataMemTable->setRowCount(1024);
+        ui->dataMemTable->setColumnCount(2);
+        ui->dataMemTable->setHorizontalHeaderLabels(dataHeaders);
+        ui->dataMemTable->verticalHeader()->setVisible(false);
+        ui->dataMemTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    }
     for (int i = 0; i < 1024; i++){
         ui->dataMemTable->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
         ui->dataMemTable->setItem(i, 1, new QTableWidgetItem(QString::number(dataMemory[i])));
@@ -133,8 +138,8 @@ void MainWindow::openFile()
 {
     if(!fileSaved && ui->codeEditor->document()->blockCount() > 1)
     {
-       if (notifyNotSaved() == QMessageBox::Save)
-           saveFile();
+        if (notifyNotSaved() == QMessageBox::Save)
+            saveFile();
     }
     QString path = QFileDialog::getOpenFileName(this, "Open File", QDir::currentPath(), "*.s *.asm *.txt");
     QFile file(path);
@@ -206,18 +211,15 @@ void MainWindow::startSimulation()
                     notifyNotSaved();
                     break;
                 }
-                qDebug() << "---------------------------";
                 start();
                 break;
             }
             case QMessageBox::Cancel:
                 cancelled = true;
-                qDebug() << "Cancel button is pushed.";
                 break;
             }
         }
         if(!cancelled){
-            qDebug() << "---------------------------";
             start();
         }
 
@@ -254,7 +256,7 @@ void MainWindow::on_actionCompile_Simulate_triggered()
 
 MainWindow::~MainWindow()
 {
-   delete ui;
+    delete ui;
 }
 
 void MainWindow::on_actionStep_Simulation_triggered()
@@ -277,17 +279,16 @@ void MainWindow::on_actionNext_Step_triggered()
     ui->actionCompile_Simulate->setEnabled(true);
     ui->Editor->setEnabled(true);
 }
-
+/***********Radio Buttons************************/
 void MainWindow::on_hexButton_toggled(bool checked)
 {
-    QString registerValue;
     if(checked)
         for(int i = 0; i < 32; ++i){
-            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + registerValue.setNum(registerFile[i], 16).toUpper()));
+            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + QString::number(registerFile[i], 16).toUpper()));
         }
     else
         for(int i = 0; i < 32; ++i){
-            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + registerValue.setNum(registerFile[i])));
+            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + QString::number(registerFile[i])));
         }
 
 }

@@ -16,7 +16,9 @@ SOURCES += main.cpp\
         mainwindow.cpp \
         highlighter.cpp \
     parser.cpp \
-    stack.cpp
+    stack.cpp \
+    cpu.cpp \
+    controlunit.cpp
 
 HEADERS  += mainwindow.h \
     highlighter.h \
@@ -24,7 +26,13 @@ HEADERS  += mainwindow.h \
     instruction.h \
     stack.h \
     regfile.h \
-    datamem.h
+    datamem.h \
+    if_id.h \
+    idec_exec.h \
+    iexec_mem.h \
+    mem_wb.h \
+    cpu.h \
+    controlunit.h
 
 FORMS    += mainwindow.ui
 
