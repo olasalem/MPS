@@ -64,7 +64,8 @@ DIST          =  ..\MPSimulator\mainwindow.h \
 		..\MPSimulator\parser.h \
 		..\MPSimulator\instruction.h \
 		..\MPSimulator\stack.h \
-		..\MPSimulator\regfile.h ..\MPSimulator\main.cpp \
+		..\MPSimulator\regfile.h \
+		..\MPSimulator\datamem.h ..\MPSimulator\main.cpp \
 		..\MPSimulator\mainwindow.cpp \
 		..\MPSimulator\highlighter.cpp \
 		..\MPSimulator\parser.cpp \
@@ -263,6 +264,7 @@ release/moc_mainwindow.cpp: C:/Qt/5.4/mingw491_32/include/QtWidgets/QMainWindow 
 		C:/Qt/5.4/mingw491_32/include/QtCore/QRegExp \
 		C:/Qt/5.4/mingw491_32/include/QtGui/QTextCharFormat \
 		../MPSimulator/regfile.h \
+		../MPSimulator/datamem.h \
 		../MPSimulator/mainwindow.h
 	C:\Qt\5.4\mingw491_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/5.4/mingw491_32/mkspecs/win32-g++ -IC:/Users/Laptop/Documents/GitHub/MPS/MPSimulator -IC:/Qt/5.4/mingw491_32/include -IC:/Qt/5.4/mingw491_32/include/QtWidgets -IC:/Qt/5.4/mingw491_32/include/QtGui -IC:/Qt/5.4/mingw491_32/include/QtCore -I. ..\MPSimulator\mainwindow.h -o release\moc_mainwindow.cpp
 
@@ -524,6 +526,7 @@ release/main.o: ../MPSimulator/main.cpp ../MPSimulator/mainwindow.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QRegExp \
 		C:/Qt/5.4/mingw491_32/include/QtGui/QTextCharFormat \
 		../MPSimulator/regfile.h \
+		../MPSimulator/datamem.h \
 		C:/Qt/5.4/mingw491_32/include/QtWidgets/QApplication \
 		C:/Qt/5.4/mingw491_32/include/QtWidgets/qapplication.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qcoreapplication.h \
@@ -668,6 +671,7 @@ release/mainwindow.o: ../MPSimulator/mainwindow.cpp C:/Qt/5.4/mingw491_32/includ
 		C:/Qt/5.4/mingw491_32/include/QtCore/QRegExp \
 		C:/Qt/5.4/mingw491_32/include/QtGui/QTextCharFormat \
 		../MPSimulator/regfile.h \
+		../MPSimulator/datamem.h \
 		../MPSimulator/parser.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QFile \
 		../MPSimulator/instruction.h \

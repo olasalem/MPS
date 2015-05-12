@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setEditor();
     setRegisterTable();
+    setDataMemory();
     QMainWindow::setWindowTitle("MPSimulator");
 }
 
@@ -47,13 +48,28 @@ void MainWindow::setRegisterTable()
     ui->registerTable->setHorizontalHeaderLabels(registerHeader);
     ui->registerTable->verticalHeader()->setVisible(false);
     ui->registerTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    //ui->registerTable->resizeColumnsToContents();
    for (int i = 0; i < 32; ++i){
        QString registerValue;
        ui->registerTable->setItem(i, 0, new QTableWidgetItem(registers[i]));
        ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + registerValue.setNum(registerFile[i])));
 
    }
+
+}
+
+void MainWindow::setDataMemory()
+{
+    QStringList dataHeaders;
+    dataHeaders << "Address" << "Value";
+    ui->dataMemTable->setRowCount(1024);
+    ui->dataMemTable->setColumnCount(2);
+    ui->dataMemTable->setHorizontalHeaderLabels(dataHeaders);
+    ui->dataMemTable->verticalHeader()->setVisible(false);
+    ui->dataMemTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    for (int i = 0; i < 1024; i++){
+        ui->dataMemTable->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
+        ui->dataMemTable->setItem(i, 1, new QTableWidgetItem(QString::number(dataMemory[i])));
+    }
 
 }
 
@@ -211,6 +227,8 @@ void MainWindow::startSimulation()
         msg.exec();
         qDebug() << "The Editor is empty.";
     }
+    setRegisterTable();
+    setDataMemory();
 }
 /***********************ACTIONS***********************/
 void MainWindow::on_actionNew_File_triggered()

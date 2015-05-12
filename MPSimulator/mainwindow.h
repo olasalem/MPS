@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "highlighter.h"
 #include "regfile.h"
+#include "datamem.h"
 namespace Ui {
     class MainWindow;
 }
@@ -43,10 +44,11 @@ private:
     QStringList pipelineStages;
     Highlighter   *highlighter;
     RegFile registerFile;
-
+    DataMem dataMemory;
 
     void setEditor();
     void setRegisterTable();
+    void setDataMemory();
     bool saveFile();
     void addStage();
     int notifyNotSaved();

@@ -23,7 +23,8 @@ HEADERS  += mainwindow.h \
     parser.h \
     instruction.h \
     stack.h \
-    regfile.h
+    regfile.h \
+    datamem.h
 
 FORMS    += mainwindow.ui
 

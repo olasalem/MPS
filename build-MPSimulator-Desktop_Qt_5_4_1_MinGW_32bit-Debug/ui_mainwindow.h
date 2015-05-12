@@ -54,6 +54,9 @@ public:
     QRadioButton *hexButton;
     QTableWidget *registerTable;
     QRadioButton *radioButton;
+    QWidget *data;
+    QGridLayout *gridLayout_4;
+    QTableWidget *dataMemTable;
     QWidget *Pipeline;
     QGridLayout *gridLayout_3;
     QTableWidget *pipelineTable;
@@ -162,6 +165,18 @@ public:
         gridLayout_2->addWidget(radioButton, 0, 2, 1, 1);
 
         tabWidget->addTab(Register, QString());
+        data = new QWidget();
+        data->setObjectName(QStringLiteral("data"));
+        gridLayout_4 = new QGridLayout(data);
+        gridLayout_4->setSpacing(6);
+        gridLayout_4->setContentsMargins(11, 11, 11, 11);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        dataMemTable = new QTableWidget(data);
+        dataMemTable->setObjectName(QStringLiteral("dataMemTable"));
+
+        gridLayout_4->addWidget(dataMemTable, 0, 0, 1, 1);
+
+        tabWidget->addTab(data, QString());
         Pipeline = new QWidget();
         Pipeline->setObjectName(QStringLiteral("Pipeline"));
         gridLayout_3 = new QGridLayout(Pipeline);
@@ -207,7 +222,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -249,6 +264,7 @@ public:
         hexButton->setText(QApplication::translate("MainWindow", "Hexadecimal", 0));
         radioButton->setText(QApplication::translate("MainWindow", "Decimal", 0));
         tabWidget->setTabText(tabWidget->indexOf(Register), QApplication::translate("MainWindow", "Registers", 0));
+        tabWidget->setTabText(tabWidget->indexOf(data), QApplication::translate("MainWindow", "Data Memory", 0));
         tabWidget->setTabText(tabWidget->indexOf(Pipeline), QApplication::translate("MainWindow", "Pipeline", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
     } // retranslateUi
