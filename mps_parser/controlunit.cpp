@@ -6,32 +6,38 @@ ControlUnit::ControlUnit()
 }
 void ControlUnit::Reset()
 {
-    RegDst = false;
+    RegDst = true;
     Branch = false;
     MemRead = false;
     MemtoReg = false;
     MemWrite = false;
-    ALUSrc = false;
+    ALUSrc = true;
     RegWrite = true;
+    Jump=false;
     ALUOp = 0;
 }
 void ControlUnit::Set(inst Curr_Inst)
 {
-    Reset();   // Initially reset all
+        Reset();   // Initially reset all
     //RegDst & ALUSrc
-   if(Curr_Inst.imm==0){
-       RegDst = 1;
-       ALUSrc = 1;
+    if(Curr_Inst.instType == "ADD" || Curr_Inst.instType == "SLT" || Curr_Inst.instType == "XOR"){ //Rtype , RegDst = ALUSrc =0
+       RegDst = 0;                
+       ALUSrc = 0;
+      // RegWrite = 1;
    }
    // Branch
-   if(Curr_Inst.instType == "BLE")){
+   if(Curr_Inst.instType == "BLE"){
        Branch = 1;
        RegWrite = 0;
+   }
+   if(Curr_Inst.instType == "J" || Curr_Inst.instType == "JR" || Curr_Inst.instType == "JAL" ){
+      // RegWrite = 0;
+      Jump=true;
    }
    //MemRead & MemReg
    if(Curr_Inst.instType == "LW" ){
        MemRead = MemtoReg = 1;
-       RegWrite = 1;
+     //  RegWrite = 1;
    }
    //MemWrite & RegWrite
    if(Curr_Inst.instType == "SW"){
@@ -39,7 +45,7 @@ void ControlUnit::Set(inst Curr_Inst)
        RegWrite = 0;
    }
    //ALUOp
-   if(Curr_Inst.instType == "ADD" || uff1.Curr_Instruction.instType == "ADDI" ){   // 1 = Addition
+   if(Curr_Inst.instType == "ADD" || Curr_Inst.instType == "ADDI" ){   // 1 = Addition
        ALUOp = 1;
    }
    else if(Curr_Inst.instType == "XOR") {  // 2 = XORing
@@ -62,7 +68,13 @@ void ControlUnit::Set(inst Curr_Inst)
    }
    else if(Curr_Inst.instType == "JR") {  // 8 = JR
        ALUOp = 8;
-   }
+    }
+    else if(Curr_Inst.instType == "JUMP_PROCEDURE") {  // 9 = Jump procedure
+       ALUOp = 9;
+    }
+    else if(Curr_Inst.instType == "RETURN_PROCEDURE") {  // 10 = Return Procedure
+       ALUOp = 10;
+    }
    else {
        ALUOp = 0;           // Invalid Instruction
    }
@@ -70,3 +82,4 @@ void ControlUnit::Set(inst Curr_Inst)
 ControlUnit::~ControlUnit()
 {
 }
+

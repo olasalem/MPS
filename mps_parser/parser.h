@@ -5,7 +5,7 @@
 #include "inst.h"
 class parser
 {
-    Q_OBJECT
+    //Q_OBJECT
     int lineNumber; //keeps track of the line numbering in the file being parsed.
     bool checkReg(int); //checks if the register index is valid or not.
 public:

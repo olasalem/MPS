@@ -9,25 +9,23 @@ public:
 		RtReg = 0;
 		RtImm = 0;
 		Rd = 0;
+		Rs_Value = 0;
+		Rt_Value =0;
 		WBReg = false;
-		WBMem = false;
-	}
-	void Read_Regs(int &R1, int &R2, int &R3, int &R4,bool &WB1 , bool &WB2){
-		R1 = Rs;
-		R2 = RtReg;
-		R3 = RtImm;
-		R4 = Rd;
-		WB1 = WBReg;
-		WB2 = WBMem;
-	}
-	void Set_Regs(int R1, int R2, int R3, int R4){
-		Rs = R1;
-		RtReg = R2;
-		RtImm = R3;
-		Rd = R4;
+		MemWrite = MemRead = false;
+		RegDst=false;
+		BranchTaken = false;
 	}
 	~IDec_Exec();
 	int Rs, RtReg, RtImm, Rd;         // the four registers that result from the decoding
-	bool WBReg, WBMem;           // write enables for the reg file and data memory
-private:
+	int Rs_Value,Rt_Value;
+	bool WBReg;
+	bool MemWrite;         // == WBMem // write enables for the data memory
+	bool MemRead;     // == MemtoReg // to read from memory to reg (LW)
+	bool Branch; 
+	bool AluSrc;
+	bool BranchTaken;
+	int AluOP;
+	int PC;
+	bool RegDst;
 };

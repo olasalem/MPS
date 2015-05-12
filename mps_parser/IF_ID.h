@@ -1,13 +1,16 @@
 #pragma once
 #include <string>
-#include "Inst"
+#include "inst.h"
 using namespace std;
 class Ifetch_Decode
 {
 public:
-	Ifetch_Decode(Inst t){
+	Ifetch_Decode(inst t){
 		Curr_Instruction = t;
+		BranchTaken = false;
 	}
 	~Ifetch_Decode();
-	Inst Curr_Instruction;
+	inst Curr_Instruction;
+	int PC;
+	bool BranchTaken;
 };
