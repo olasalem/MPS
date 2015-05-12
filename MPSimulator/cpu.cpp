@@ -141,6 +141,8 @@ void CPU::ALU2()
         }
     cout << MyCU.Jump << endl;
     if(MyCU.Jump)
+    {
+        buffer2.BranchTaken = true;
         switch(MyCU.ALUOp){
         case 6: //j
             result2 = buffer1.Curr_Instruction.jAddress; //pc = jaddress
@@ -171,6 +173,7 @@ void CPU::ALU2()
             }
 
         }
+    }
     cout<<"ALU 2 done"<<result2<<'\n';
 
 }
