@@ -7,8 +7,10 @@ class Ifetch_Decode
 public:
 	Ifetch_Decode(inst t){
 		Curr_Instruction = t;
+		BranchTaken = false;
 	}
 	~Ifetch_Decode();
 	inst Curr_Instruction;
 	int PC;
+	bool BranchTaken;
 };
