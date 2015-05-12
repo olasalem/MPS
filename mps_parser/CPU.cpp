@@ -23,6 +23,7 @@ void CPU::Update_buffer1(inst m)
 {
     buffer1.Curr_Instruction = m;
     buffer1.PC = PC;
+    buffer1.BranchTaken = buffer2.BranchTaken;
 }
 
 // WE PROBABLY DON'T NEED PC, BRANCH AND JUMP CONTROLS IN THE BUFFERS ANYMORE
@@ -34,9 +35,17 @@ void CPU::Update_buffer2()
     buffer2.Rs_Value = MyReg[buffer1.Curr_Instruction.rs];
     buffer2.RtImm = buffer1.Curr_Instruction.imm;
     buffer2.Rt_Value = MyReg[buffer1.Curr_Instruction.rt];
-    buffer2.MemWrite = MyCU.MemWrite;
     buffer2.MemRead = MyCU.MemRead;
-    buffer2.WBReg = MyCU.RegWrite; //or memtoreg = 1 only if memread = 1
+    if(buffer1.BranchTaken)
+    {
+        buffer2.MemWrite = false;
+        buffer2.WBReg = false; //or memtoreg = 1 only if memread = 1
+    }
+    else
+    {
+        buffer2.MemWrite = MyCU.MemWrite;
+        buffer2.WBReg = MyCU.RegWrite;
+    }
     buffer2.PC = buffer1.PC;
     buffer2.AluSrc = MyCU.ALUSrc;
     buffer2.Branch = MyCU.Branch;
@@ -92,6 +101,15 @@ void CPU::ALU(){
             if(buffer2.Rs_Value<buffer2.Rt_Value) result=1;
             else result=0;
             break;
+        case 10:
+            //return hatt3emel f alu walla mem
+        try{
+
+            int returnPoint = st.pop();
+            result2 = returnPoint;
+        } catch (QString Error) {
+            qDebug() <<Error;
+        }
 
 
   /*  case 5://beq
@@ -107,20 +125,35 @@ void CPU::ALU2()
     if(MyCU.Branch)//BLE
         if(MyReg[buffer1.Curr_Instruction.rs]<=MyReg[buffer1.Curr_Instruction.rt])
         {
-            result2 = buffer1.PC + buffer1.Curr_Instruction.imm;
-            buffer2.BranchTaken = true;           // branch taken
+            result2 = buffer1.PC + buffer1.Curr_Instruction.imm + 1;
+            buffer2.BranchTaken = true;
         }
     if(MyCU.Jump)
         switch(MyCU.ALUOp){
         case 6: //j
-            result2 = buffer1.PC + buffer1.Curr_Instruction.jAddress;
+            result2 = buffer1.Curr_Instruction.jAddress; //pc = jaddress
             brek;
         case 7: //jal
-             result2 = buffer1.PC + buffer1.Curr_Instruction.jAddress;
+             result2 = buffer1.Curr_Instruction.jAddress;
              MyReg[31]=buffer1.PC+1;//we return to next instruction not the current pc which is the location of jal
              break;
         case 8: //jr
             result2=MyReg[buffer1.Curr_Instruction.rs];
+        case 9: //jump_procedure
+            result2 = buffer1.Curr_Instruction.jAddress;
+            try
+            {
+                st.push(buffer1.PC+1);
+            } catch (QString Error) {
+                qDebug()<<Error;
+
+            }
+
+
+
+
+
+
         }
 
 }
@@ -243,4 +276,58 @@ void CPU::Execute()
     // CYCLE SIZE
     Up_Reg();
     clk++;
+}
+
+
+
+void CPU:: Forwarding()
+    {
+        bool StallFlag = false;
+        if (buffer2.Rs == buffer3.Reg_destination )
+        {
+            if(buffer3.MemtoReg)      // Stall if insruction before reads from memory
+            {
+                StallFlag = true;
+            }
+            else
+            {
+                buffer2.Rs_Value = buffer3.Res_Alu;
+            }
+        if (buffer2.RtReg == buffer3.Reg_destination)
+        {
+            if(buffer3.MemtoReg)      // Stall if insruction before reads from memory
+            {
+                StallFlag = true;
+            }
+            else
+            {
+                buffer2.Rt_Value = buff3.Res_Alu;
+            }
+         }
+        if (buffer2.Rs == buffer4.Reg_destination)
+        {
+            if(buffer4.MemtoReg)
+            {
+                buffer2.Rs_Value = buffer4.Mem_Result;
+            }
+            else
+            {
+                buffer2.Rs_Value = buffer4.Alu_Result;
+            }
+        }
+        if (buffer2.RtReg == buff4.Reg_destination)
+        {
+            if(buffer4.MemtoReg)
+            {
+                buffer2.Rt_Value = buffer4.Mem_Result;
+            }
+            else
+            {
+                buffer2.Rt_Value = buffer4.Alu_Result;
+            }
+        }
+    }
+  /*if(StallFlag){
+
+  }*/
 }
