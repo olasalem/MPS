@@ -17,6 +17,7 @@ public:
     void startSimulation();
     void openFile();
     void newFile();
+    void start();
 private slots:
     void on_actionNew_File_triggered();
 
@@ -44,7 +45,7 @@ private:
 
     void setEditor();
     void setRegisterTable();
-    void saveFile();
+    bool saveFile();
     void addStage();
     int notifyNotSaved();
 

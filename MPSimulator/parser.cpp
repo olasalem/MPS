@@ -117,5 +117,3 @@ bool Parser::checkReg(int index)
     if(index < 0 || index > 31) return false;
         return true;
 }
-
-
