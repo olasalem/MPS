@@ -22,7 +22,7 @@ using namespace std;
     }
 
     void stack::push(int i){
-        QString StackPushError = "Invalid Push, Stack is Full";
+        QString StackPushError = "Invalid Jump, Stack OverFlow";
         if(!this->isFull()){
             topValue++;
             stackPointer[topValue]= i;
@@ -31,13 +31,15 @@ using namespace std;
 
     }
     int stack::pop(){
+        QString StackPopError = "Invalid Return, The Function is not a Callee";
         if(!this->isEmpty()){
             int temp = stackPointer[topValue];
             topValue--;
             return temp;
         }
+        else throw (StackPopError);
 
-        return -1;
+
     }
     int stack::top() const{
         return stackPointer[topValue];
