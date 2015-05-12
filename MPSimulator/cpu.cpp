@@ -1,15 +1,22 @@
 #include "CPU.h"
-#include <QtDebug>
-#include <iostream>
+#include <QDebug>
 #include <QPair>
-CPU::CPU(){}
+
+CPU::CPU(){
+
+}
 CPU::CPU(QVector<Instruction> &v){
+
+}
+
+CPU::CPU(const QVector<Instruction>& v){
+
     MyIM = v;
 }
 
 void CPU::setFile(QVector<Instruction> &v)
 {
-     MyIM = v;
+    MyIM = v;
 }
 
 CPU::~CPU(){}
@@ -125,6 +132,8 @@ void CPU::ALU2()
         }
     //cout << MyCU.Jump << endl;
     if(MyCU.Jump)
+    {
+        buffer2.BranchTaken = true;
         switch(MyCU.ALUOp){
         case 6: //j
             result2 = buffer1.Curr_Instruction.jAddress; //pc = jaddress
@@ -141,7 +150,7 @@ void CPU::ALU2()
         {
             st.push(buffer1.PC+1);
         } catch (QString Error) {
-                qDebug()<<Error;
+                qDebug() << Error;
 
             }
         case 10:
@@ -155,8 +164,14 @@ void CPU::ALU2()
             }
 
         }
-    //cout<<"ALU 2 done"<<result2<<'\n';
+        //<<<<<<< HEAD
+        //    //cout<<"ALU 2 done"<<result2<<'\n';
+        //=======
+        //    }
+        //    cout<<"ALU 2 done"<<result2<<'\n';
+        //>>>>>>> origin/master
 
+    }
 }
 
 void CPU::Up_Memory()
@@ -378,7 +393,5 @@ bool CPU:: Forwarding()
         }
     }
     return StallFlag;
-    /*if(StallFlag){
-
-  }*/
 }
+

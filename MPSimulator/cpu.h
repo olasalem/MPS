@@ -4,6 +4,7 @@
 #include "regfile.h"
 #include "DataMem.h"
 #include "instruction.h"
+#include "Instruction.h"
 #include "controlunit.h"
 #include "IDec_Exec.h"
 #include "IExec_Mem.h"
@@ -15,6 +16,7 @@
 class CPU{
 
 public:
+
     CPU();
     CPU(QVector<Instruction>& v);
     void setFile(QVector<Instruction>& v);
@@ -27,11 +29,18 @@ public:
     Mem_WB buffer4;
     Stack st;
     Instruction current;
+
     DataMem MyMem;
+
     int PC_p; // take pc
     int result = 0, result2 = 0;
     int Mem_res;
     QVector< QPair<int,int> > Units; // The one that saves that units in every cycle , Units.first = unit{1,2,etc } , Units.second = cycle
+
+
+    CPU();
+    CPU(const QVector<Instruction>& v);
+
     ~CPU();
     Instruction Current();
     void ALU();
