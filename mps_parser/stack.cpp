@@ -22,10 +22,12 @@ using namespace std;
     }
 
     void stack::push(int i){
+        QString StackPushError = "Invalid Push, Stack is Full";
         if(!this->isFull()){
             topValue++;
             stackPointer[topValue]= i;
         }
+        else throw (StackPushError);
 
     }
     int stack::pop(){
@@ -34,6 +36,7 @@ using namespace std;
             topValue--;
             return temp;
         }
+
         return -1;
     }
     int stack::top() const{
