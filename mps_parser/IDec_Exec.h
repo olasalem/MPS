@@ -14,7 +14,7 @@ public:
 		WBReg = false;
 		MemWrite = MemRead = false;
 		RegDst=false;
-		Branch = false;
+		BranchTaken = false;
 	}
 	~IDec_Exec();
 	int Rs, RtReg, RtImm, Rd;         // the four registers that result from the decoding
