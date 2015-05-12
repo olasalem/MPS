@@ -106,7 +106,10 @@ void CPU::ALU2()
 
     if(MyCU.Branch)//BLE
         if(MyReg[buffer1.Curr_Instruction.rs]<=MyReg[buffer1.Curr_Instruction.rt])
+        {
             result2 = buffer1.PC + buffer1.Curr_Instruction.imm;
+            buffer2.BranchTaken = true;           // branch taken
+        }
     if(MyCU.Jump)
         switch(MyCU.ALUOp){
         case 6: //j
