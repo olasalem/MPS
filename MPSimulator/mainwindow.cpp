@@ -47,7 +47,7 @@ void MainWindow::setRegisterTable()
     ui->registerTable->setHorizontalHeaderLabels(registerHeader);
     ui->registerTable->verticalHeader()->setVisible(false);
     ui->registerTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
+    //ui->registerTable->resizeColumnsToContents();
    for (int i = 0; i < 32; ++i){
        ui->registerTable->setItem(i, 0, new QTableWidgetItem(registers[i]));
        ui->registerTable->setItem(i, 1, new QTableWidgetItem("0"));
@@ -55,7 +55,7 @@ void MainWindow::setRegisterTable()
 
 }
 
-void MainWindow::saveFile()
+bool MainWindow::saveFile()
 {
     QString path = QFileDialog::getSaveFileName(this, "Save File", QDir::currentPath(), "*.asm");
     QString content = ui->codeEditor->document()->toPlainText();
@@ -66,9 +66,11 @@ void MainWindow::saveFile()
         QTextStream data(&file);
         data << content;
         ui->tabWidget->setTabText(0, "Editor - " + QFileInfo(file).fileName());
+        return true;
     }
     else{
         qDebug() << "Cannot open file.";
+        return false;
     }
 
 }
@@ -154,17 +156,53 @@ void MainWindow::addStage()
     }
 }
 
+void MainWindow::start()
+{
+    QFile file(currentPath);
+    Parser parser;
+    parser.parseFile(file);
+    addStage();
+}
+
 void MainWindow::startSimulation()
 {
     if(ui->codeEditor->document()->blockCount() > 1){
-        if(!fileSaved){
-            notifyNotSaved();
+        bool cancelled = false;
+        while(!fileSaved && !cancelled){
+            switch(notifyNotSaved()){
+            case QMessageBox::Save:
+            {
+                if (!saveFile()){
+                    notifyNotSaved();
+                    break;
+                }
+            }
+            case QMessageBox::Yes:
+            {
+                if(currentPath.isEmpty())
+                {
+                    QMessageBox msg;
+                    msg.setText("No saved file found");
+                    msg.setInformativeText("The file you are working on has no saved version, please save and try again.");
+                    msg.exec();
+                    notifyNotSaved();
+                    break;
+                }
+                qDebug() << "---------------------------";
+                start();
+                break;
+            }
+            case QMessageBox::Cancel:
+                cancelled = true;
+                qDebug() << "Cancel button is pushed.";
+                break;
+            }
         }
-        qDebug() << "---------------------------";
-        QFile file(currentPath);
-        Parser parser;
-        parser.parseFile(file);
-        addStage();
+        if(!cancelled){
+            qDebug() << "---------------------------";
+            start();
+        }
+
     } else{
         QMessageBox msg;
         msg.setText("The Editor is Empty");
