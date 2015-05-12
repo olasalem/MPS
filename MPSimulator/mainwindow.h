@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "highlighter.h"
+#include "cpu.h"
 #include "regfile.h"
 #include "datamem.h"
 namespace Ui {
@@ -45,8 +46,7 @@ private:
     QStringList registers;
     QStringList pipelineStages;
     Highlighter   *highlighter;
-    RegFile registerFile;
-    DataMem dataMemory;
+    CPU cpu;
 
     void setEditor();
     void setRegisterTable();

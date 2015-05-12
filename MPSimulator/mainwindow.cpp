@@ -4,10 +4,13 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QFileInfo>
+
 #include "mainwindow.h"
+#include "cpu.h"
 #include "parser.h"
 #include "instruction.h"
 #include "ui_mainwindow.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -52,9 +55,8 @@ void MainWindow::setRegisterTable()
         ui->registerTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     }
     for (int i = 0; i < 32; ++i){
-        QString registerValue;
-        ui->registerTable->setItem(i, 0, new QTableWidgetItem(registers[i]));
-        ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + registerValue.setNum(registerFile[i])));
+        ui->registerTable->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
+        ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + QString::number(cpu.MyReg[i])));
 
     }
 
@@ -73,7 +75,7 @@ void MainWindow::setDataMemory()
     }
     for (int i = 0; i < 1024; i++){
         ui->dataMemTable->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
-        ui->dataMemTable->setItem(i, 1, new QTableWidgetItem(QString::number(dataMemory[i])));
+        ui->dataMemTable->setItem(i, 1, new QTableWidgetItem(QString::number(cpu.MyMem[i])));
     }
 
 }
@@ -158,23 +160,29 @@ void MainWindow::openFile()
 
 void MainWindow::addStage()
 {
-    /*Testing Stages*/
     QStringList stages;
-    stages << "IF" << "ID" << "EXEC" << "MEM" << "WB"
-           << "IF" << "ID" << "EXEC" << "MEM" << "WB"
-           << "IF" << "ID" << "EXEC" << "MEM" << "WB"
-           << "IF" << "ID" << "EXEC" << "MEM" << "WB";
+    stages << "IF" << "ID" << "Exec" << "Mem" << "WB";
     ui->pipelineTable->verticalHeader()->setHidden(true);
     ui->pipelineTable->horizontalHeader()->setHidden(true);
     ui->pipelineTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     int count = 0;
-    foreach (const QString &stage, stages) {
-        if (stage == "IF" && (count == 5 || count == 0)){
+    qDebug () << "Size of the Unit Vector: " << cpu.Units.size();
+    for (int i = 0; i < cpu.Units.size(); i++) {
+        qDebug () << "=================================";
+        qDebug() << "True  or False(.second): " << (cpu.Units[i].second == 1);
+        qDebug() << "True or false(count == 5): " << (count == 5);
+        qDebug() << "True or false(count == 1): " << (count == 1);
+        if (cpu.Units[i].second == 1 || (count == 5 || count == 0)){
             ui->pipelineTable->insertRow(ui->pipelineTable->rowCount());
             count = 0;
+            qDebug () << "---------------------";
         }
+        qDebug () << "The count is: " << count;
+        qDebug () << "cpu.Units[i].first = " << cpu.Units[i].first;
+        qDebug () << "cpu.Units[i].second = " << cpu.Units[i].second;
+        qDebug() << "Formula Ka2en: " << count + cpu.Units[i].first - 1;
         ui->pipelineTable->insertColumn(ui->pipelineTable->columnCount());
-        ui->pipelineTable->setItem(ui->pipelineTable->rowCount() - 1, count + ui->pipelineTable->rowCount() - 1 , new QTableWidgetItem(stage));
+        ui->pipelineTable->setItem(cpu.Units[i].first - 1, count + cpu.Units[i].first - 1 , new QTableWidgetItem(stages[cpu.Units[i].second - 1]));
         count++;
     }
 }
@@ -183,8 +191,12 @@ void MainWindow::start()
 {
     QFile file(currentPath);
     Parser parser;
-    parser.parseFile(file);
+    QVector <Instruction> doc = parser.parseFile(file);
+    cpu.setFile(doc);
+    cpu.Execute();
     addStage();
+    setRegisterTable();
+    setDataMemory();
 }
 
 void MainWindow::startSimulation()
@@ -229,8 +241,6 @@ void MainWindow::startSimulation()
         msg.exec();
         qDebug() << "The Editor is empty.";
     }
-    setRegisterTable();
-    setDataMemory();
 }
 /***********************ACTIONS***********************/
 void MainWindow::on_actionNew_File_triggered()
@@ -284,11 +294,11 @@ void MainWindow::on_hexButton_toggled(bool checked)
 {
     if(checked)
         for(int i = 0; i < 32; ++i){
-            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + QString::number(registerFile[i], 16).toUpper()));
+            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + QString::number(cpu.MyReg[i], 16).toUpper()));
         }
     else
         for(int i = 0; i < 32; ++i){
-            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + QString::number(registerFile[i])));
+            ui->registerTable->setItem(i, 1, new QTableWidgetItem("0x" + QString::number(cpu.MyReg[i])));
         }
 
 }
