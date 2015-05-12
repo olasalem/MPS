@@ -195,7 +195,7 @@ void CPU::Execute()
     Up_PC(); //what if it's only one instruction? if(pc<size) update?
     // CYCLE 1
     //ID
-    MyCU.Set(current);
+    MyCU.Set(buffer1.Curr_Instruction);
     Update_buffer2();
     //JUMP or BRANCH?
     ALU2();
@@ -209,7 +209,7 @@ void CPU::Execute()
     ALU();
     Update_buffer3();
     //ID
-    MyCU.Set(current);
+    MyCU.Set(buffer1.Curr_Instruction);
     Update_buffer2();
     ALU2();
     //IF
@@ -225,7 +225,7 @@ void CPU::Execute()
     ALU();
     Update_buffer3();
     // ID
-    MyCU.Set(current);
+    MyCU.Set(buffer1.Curr_Instruction);
     Update_buffer2();
     ALU2();
     // IF
@@ -244,7 +244,7 @@ void CPU::Execute()
         ALU();
         Update_buffer3();
         // ID
-        MyCU.Set(current);
+        MyCU.Set(buffer1.Curr_Instruction);
         Update_buffer2();
         // BRANCH or JUMP?
         ALU2();
@@ -261,7 +261,7 @@ void CPU::Execute()
     Update_buffer4();
     ALU();
     Update_buffer3();
-    MyCU.Set(current);
+    MyCU.Set(buffer1.Curr_Instruction);
     Update_buffer2();
     ALU2();
     clk++;
