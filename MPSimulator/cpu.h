@@ -3,7 +3,7 @@
 
 #include "regfile.h"
 #include "DataMem.h"
-#include "inst.h"
+#include "Instruction.h"
 #include "controlunit.h"
 #include "IDec_Exec.h"
 #include "IExec_Mem.h"
@@ -17,27 +17,27 @@ private:
     DataMem MyMem;
     //regfile MyReg;
 public:
-    regfile MyReg;
+    RegFile MyReg;
     ControlUnit MyCU;
-    QVector<inst> MyIM;
+    QVector<Instruction> MyIM;
     Ifetch_Decode buffer1;
     IDec_Exec buffer2;
     IExec_Mem buffer3;
     Mem_WB buffer4;
-    stack st;
-    inst current;
+    Stack st;
+    Instruction current;
     int PC_p; // take pc
     int result = 0, result2 = 0;
     int Mem_res;
     QVector< QPair<int,int> > Units; // The one that saves that units in every cycle , Units.first = unit{1,2,etc } , Units.second = cycle
     CPU();
-    CPU(const QVector<inst>& v);
+    CPU(const QVector<Instruction>& v);
     ~CPU();
-    inst Current();
+    Instruction Current();
     void ALU();
     void ALU2();
     void Up_PC();
-    void Update_buffer1(inst m);
+    void Update_buffer1(Instruction m);
     void Update_buffer2();
     void Update_buffer3();
     void Update_buffer4();
