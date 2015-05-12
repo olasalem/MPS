@@ -101,7 +101,7 @@ void CPU::ALU(){
             if(buffer2.Rs_Value<buffer2.Rt_Value) result=1;
             else result=0;
             break;
-        case 10:
+        /*case 10:
             //return hatt3emel f alu walla mem
         try{
 
@@ -148,11 +148,15 @@ void CPU::ALU2()
                 qDebug()<<Error;
 
             }
+        case 10:
+            //return hatt3emel f alu walla mem
+            try{
 
-
-
-
-
+                int returnPoint = st.pop();
+                result2 = returnPoint;
+            } catch (QString Error) {
+                qDebug() <<Error;
+            }
 
         }
 
@@ -191,7 +195,7 @@ void CPU::Execute()
     Up_PC(); //what if it's only one instruction? if(pc<size) update?
     // CYCLE 1
     //ID
-    MyCU.Set(current);
+    MyCU.Set(buffer1.Curr_Instruction);
     Update_buffer2();
     //JUMP or BRANCH?
     ALU2();
@@ -205,7 +209,7 @@ void CPU::Execute()
     ALU();
     Update_buffer3();
     //ID
-    MyCU.Set(current);
+    MyCU.Set(buffer1.Curr_Instruction);
     Update_buffer2();
     ALU2();
     //IF
@@ -221,7 +225,7 @@ void CPU::Execute()
     ALU();
     Update_buffer3();
     // ID
-    MyCU.Set(current);
+    MyCU.Set(buffer1.Curr_Instruction);
     Update_buffer2();
     ALU2();
     // IF
@@ -230,7 +234,7 @@ void CPU::Execute()
     clk++;
     Up_PC();
 
-    while(PC < MyIM[MyIM.size()]) {
+    while(PC < MyIM.size()) {
         // WB
         Up_Reg();
         // MEM
@@ -240,7 +244,7 @@ void CPU::Execute()
         ALU();
         Update_buffer3();
         // ID
-        MyCU.Set(current);
+        MyCU.Set(buffer1.Curr_Instruction);
         Update_buffer2();
         // BRANCH or JUMP?
         ALU2();
@@ -257,7 +261,7 @@ void CPU::Execute()
     Update_buffer4();
     ALU();
     Update_buffer3();
-    MyCU.Set(current);
+    MyCU.Set(buffer1.Curr_Instruction);
     Update_buffer2();
     ALU2();
     clk++;
@@ -301,7 +305,7 @@ void CPU:: Forwarding()
             }
             else
             {
-                buffer2.Rt_Value = buff3.Res_Alu;
+                buffer2.Rt_Value = buffer3.Res_Alu;
             }
          }
         if (buffer2.Rs == buffer4.Reg_destination)
@@ -315,7 +319,7 @@ void CPU:: Forwarding()
                 buffer2.Rs_Value = buffer4.Alu_Result;
             }
         }
-        if (buffer2.RtReg == buff4.Reg_destination)
+        if (buffer2.RtReg == buffer4.Reg_destination)
         {
             if(buffer4.MemtoReg)
             {

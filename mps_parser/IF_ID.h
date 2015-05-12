@@ -5,11 +5,12 @@ using namespace std;
 class Ifetch_Decode
 {
 public:
-	Ifetch_Decode(inst t){
+    Ifetch_Decode(){}
+    Ifetch_Decode(const inst& t){
 		Curr_Instruction = t;
 		BranchTaken = false;
 	}
-	~Ifetch_Decode();
+    ~Ifetch_Decode(){}
 	inst Curr_Instruction;
 	int PC;
 	bool BranchTaken;

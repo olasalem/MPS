@@ -16,7 +16,7 @@ public:
 		RegDst=false;
 		BranchTaken = false;
 	}
-	~IDec_Exec();
+    ~IDec_Exec(){}
 	int Rs, RtReg, RtImm, Rd;         // the four registers that result from the decoding
 	int Rs_Value,Rt_Value;
 	bool WBReg;

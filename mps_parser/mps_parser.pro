@@ -18,7 +18,9 @@ TEMPLATE = app
 SOURCES += main.cpp \
     parser.cpp \
     inst.cpp \
-    stack.cpp
+    stack.cpp \
+    controlunit.cpp \
+    CPU.cpp
 
 HEADERS += \
     parser.h \
@@ -31,7 +33,9 @@ HEADERS += \
     ../../../../../../Desktop/DataMem.h \
     DataMem.h \
     regfile.h \
-    stack.h
+    stack.h \
+    controlunit.h \
+    CPU.h
 
 OTHER_FILES += \
     test.txt
