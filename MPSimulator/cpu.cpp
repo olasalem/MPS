@@ -137,7 +137,7 @@ void CPU::ALU2()
         switch(MyCU.ALUOp){
         case 6: //j
             result2 = buffer1.Curr_Instruction.jAddress; //pc = jaddress
-            break;
+             break;
         case 7: //jal
             result2 = buffer1.Curr_Instruction.jAddress;
             MyReg[31]=buffer1.PC+1;//we return to next instruction not the current pc which is the location of jal
@@ -201,51 +201,52 @@ void CPU::Execute()
     PC_p = 0;
     // CYCLE 0
     // IF
-    //cout << "cycle 0\n";
-    current = MyIM[PC_p];
-    Update_buffer1(current);
-    clk++;
-    //cout << clk << endl;
-    Up_PC();
-    //cout << PC_p << endl;//what if it's only one instruction? if(pc<size) update?
-    Units.push_back(qMakePair(clk,1));
+        current = MyIM[PC_p];
+        Update_buffer1(current);
+        Units.push_back(qMakePair(clk,1));
+        clk++;
+        Up_PC();
+    //what if it's only one instruction? if(pc<size) update?
+
     // CYCLE 1
     //ID
-    // //cout << "cycle 1\n";
-    MyCU.Set(buffer1.Curr_Instruction);
-    Update_buffer2();
-    Units.push_back(qMakePair(clk,2));
+        MyCU.Set(buffer1.Curr_Instruction);
+        Update_buffer2();
+        Units.push_back(qMakePair(clk,2));
     //JUMP or BRANCH?
-    ALU2();
+        ALU2();
     //cout << PC_p << endl;
     //IF
-    current = MyIM[PC_p];
-    Update_buffer1(current);
-    clk++;
-    Up_PC();
+        current = MyIM[PC_p];
+        Update_buffer1(current);
+        Units.push_back(qMakePair(clk,1));
+        clk++;
+        Up_PC();
+
     // CYCLE 2
     // EX
-    Units.push_back(qMakePair(clk,3));
-    if(!Forwarding()){      // execute , no stalling
-        ALU();
-        Update_buffer3();
-    }
+        if(!Forwarding()){      // execute , no stalling
+            ALU();
+            Update_buffer3();
+        }
+        Units.push_back(qMakePair(clk,3));
     //ID
-    Units.push_back(qMakePair(clk,2));
-    MyCU.Set(buffer1.Curr_Instruction);
-    Update_buffer2();
-    ALU2();
+        MyCU.Set(buffer1.Curr_Instruction);
+        Update_buffer2();
+        ALU2();
+        Units.push_back(qMakePair(clk,2));
     //IF
-    Units.push_back(qMakePair(clk,1));
-    current = MyIM[PC_p];
-    Update_buffer1(current);
-    clk++;
-    Up_PC();
+        Units.push_back(qMakePair(clk,1));
+        current = MyIM[PC_p];
+        Update_buffer1(current);
+        clk++;
+        Up_PC();
+
     // CYCLE 3
     // MEM
-    Units.push_back(qMakePair(clk,4));
-    Up_Memory();
-    Update_buffer4();
+        Units.push_back(qMakePair(clk,4));
+        Up_Memory();
+        Update_buffer4();
     // EX
     Units.push_back(qMakePair(clk,3));
     if(!Forwarding()){      // execute , no stalling
@@ -253,24 +254,19 @@ void CPU::Execute()
         Update_buffer3();
     }
     // ID
-    Units.push_back(qMakePair(clk,2));
-    MyCU.Set(buffer1.Curr_Instruction);
-    Update_buffer2();
-    ALU2();
+        Units.push_back(qMakePair(clk,2));
+        MyCU.Set(buffer1.Curr_Instruction);
+        Update_buffer2();
+        ALU2();
     // IF
-    Units.push_back(qMakePair(clk,1));
-    current = MyIM[PC_p];
-    Update_buffer1(current);
-    clk++;
-    Up_PC();
+        Units.push_back(qMakePair(clk,1));
+        current = MyIM[PC_p];
+        Update_buffer1(current);
+        clk++;
+        Up_PC();
     //cout << "clock before loop: " << clk << endl;
-    // WB
-    Units.push_back(qMakePair(clk,5));
-    Up_Reg();
-    // MEM
-    Units.push_back(qMakePair(clk,4));
-    Up_Memory();
-    Update_buffer4();
+
+
     while(PC_p < MyIM.size()) {
         // WB
         Units.push_back(qMakePair(clk,5));
@@ -300,49 +296,54 @@ void CPU::Execute()
     }
 
     // CYCLE SIZE - 3
-    Up_Reg();
-    Up_Memory();
-    Update_buffer4();
+    //WB
+        Units.push_back(qMakePair(clk,5));
+        Up_Reg();
+    //MEM
+        Units.push_back(qMakePair(clk,4));
+        Up_Memory();
+        Update_buffer4();
     //EX
-    Units.push_back(qMakePair(clk,3));
-    if(!Forwarding()){      // execute , no stalling
-        ALU();
-        Update_buffer3();
-    }
+        Units.push_back(qMakePair(clk,3));
+        if(!Forwarding()){      // execute , no stalling
+            ALU();
+            Update_buffer3();
+        }
     // ID
-    Units.push_back(qMakePair(clk,2));
-    MyCU.Set(buffer1.Curr_Instruction);
-    Update_buffer2();
-    ALU2();
-    clk++;
+        Units.push_back(qMakePair(clk,2));
+        MyCU.Set(buffer1.Curr_Instruction);
+        Update_buffer2();
+        ALU2();
+        clk++;
+
     // CYCLE SIZE - 2
     // WB
-    Units.push_back(qMakePair(clk,5));
-    Up_Reg();
+        Units.push_back(qMakePair(clk,5));
+        Up_Reg();
     // MEM
-    Units.push_back(qMakePair(clk,4));
-    Up_Memory();
-    Update_buffer4();
+        Units.push_back(qMakePair(clk,4));
+        Up_Memory();
+        Update_buffer4();
     //EX
-    Units.push_back(qMakePair(clk,3));
-    Forwarding();
-    ALU();
-    Update_buffer3();
-    clk++;
+        Units.push_back(qMakePair(clk,3));
+        Forwarding();
+        ALU();
+        Update_buffer3();
+        clk++;
     // CYCLE SIZE - 1
     // WB
-    Units.push_back(qMakePair(clk,5));
-    Up_Reg();
+        Units.push_back(qMakePair(clk,5));
+        Up_Reg();
     // MEM
-    Units.push_back(qMakePair(clk,4));
-    Up_Memory();
-    Update_buffer4();
-    clk++;
+        Units.push_back(qMakePair(clk,4));
+        Up_Memory();
+        Update_buffer4();
+        clk++;
     // CYCLE SIZE
     //WB
-    Units.push_back(qMakePair(clk,5));
-    Up_Reg();
-    clk++;
+        Units.push_back(qMakePair(clk,5));
+        Up_Reg();
+        clk++;
     //cout<<"PC" << PC_p<<'\n';
 }
 bool CPU:: Forwarding()
