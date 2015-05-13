@@ -37,8 +37,6 @@ public:
     int Mem_res;
     QVector< QPair<int,int> > Units; // The one that saves that units in every cycle , Units.first = unit{1,2,etc } , Units.second = cycle
 
-
-    CPU();
     CPU(const QVector<Instruction>& v);
 
     ~CPU();
