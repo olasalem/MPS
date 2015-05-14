@@ -1,5 +1,8 @@
 #include "controlunit.h"
 #include <QDebug>
+#include<QTextStream>
+#include <iostream>
+using namespace std;
 
 ControlUnit::ControlUnit()
 {
@@ -13,11 +16,13 @@ void ControlUnit::Reset()
     MemWrite = false;
     ALUSrc = true;
     RegWrite = true;
-    Jump=false;
+    Jump = false;
     ALUOp = 0;
 }
 void ControlUnit::Set(Instruction Curr_Inst)
 {
+    QTextStream(stdout) << Curr_Inst.instType << endl;
+
     Reset();   // Initially reset all
     //RegDst & ALUSrc
     if(Curr_Inst.instType == "ADD" || Curr_Inst.instType == "SLT" || Curr_Inst.instType == "XOR"){ //Rtype , RegDst = ALUSrc =0
@@ -78,7 +83,8 @@ void ControlUnit::Set(Instruction Curr_Inst)
     else {
         ALUOp = 0;           // Invalid Instruction
     }
-    qDebug() <<"Signals"<<RegDst<<" "<<Branch<<" "<<MemRead<<" "<<MemtoReg<<" "<<MemWrite<<" "<<ALUSrc<<" "<<RegWrite<<" "<<Jump<<" "<<ALUOp;
+    cout << "Control Unit\n Register file \n";
+    //qDebug() <<"Signals"<<RegDst<<" "<<Branch<<" "<<MemRead<<" "<<MemtoReg<<" "<<MemWrite<<" "<<ALUSrc<<" "<<RegWrite<<" "<<Jump<<" "<<ALUOp;
 }
 ControlUnit::~ControlUnit()
 {

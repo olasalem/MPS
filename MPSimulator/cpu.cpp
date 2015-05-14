@@ -1,6 +1,8 @@
 #include "CPU.h"
 #include <QDebug>
 #include <QPair>
+#include <iostream>
+using namespace std;
 
 CPU::CPU(){
 
@@ -26,11 +28,19 @@ void CPU::Up_PC()
 {
     //cout << PC_p << endl;
     //cout << result2 << endl;
+    if(result2 < MyIM.size())
+        qDebug () << "Instr: " << MyIM[result2].inst;
+    else
+        qDebug () << "End.";
     if(MyCU.Branch || MyCU.Jump)
         PC_p = result2;
     else
+        if(buffer4.BT)
+            //buffer4.BT = false;
+            return;
+        else
         PC_p = PC_p+1;
-    //cout<<"Why not?"<< PC_p <<'\n';
+    cout <<"PC"<< PC_p <<'\n';
 }
 
 void CPU::Update_buffer1(Instruction m)
@@ -38,7 +48,7 @@ void CPU::Update_buffer1(Instruction m)
     buffer1.Curr_Instruction = m;
     buffer1.PC = PC_p;
     buffer1.BranchTaken = buffer2.BranchTaken;
-    //cout<<"Buffer 1 Updated"<<'\n';
+    cout<<"Buffer 1 Updated"<<'\n';
 }
 
 // WE PROBABLY DON'T NEED PC, BRANCH AND JUMP CONTROLS IN THE BUFFERS ANYMORE
@@ -66,7 +76,7 @@ void CPU::Update_buffer2()
     buffer2.Branch = MyCU.Branch;
     buffer2.AluOP = MyCU.ALUOp;
     buffer2.RegDst = MyCU.RegDst;
-    //cout<<"Buffer 2 Updated"<<'\n';
+    cout <<"Buffer 2 Updated"<<'\n';
 }
 
 
@@ -85,7 +95,8 @@ void CPU::Update_buffer3()
         buffer3.Reg_destination = buffer2.RtReg;
     else
         buffer3.Reg_destination = buffer2.Rd;
-    //cout<<"Buffer 3 Updated"<<'\n';
+    buffer3.BT = buffer2.BranchTaken;
+    cout<<"Buffer 3 Updated"<<'\n';
 }
 
 void CPU::Update_buffer4()
@@ -95,7 +106,8 @@ void CPU::Update_buffer4()
     buffer4.Alu_Result = buffer3.Res_Alu;
     buffer4.MemtoReg = buffer3.MemtoReg;
     buffer4.WBReg = buffer3.WBReg;
-    //cout<<"Buffer 4 Updated"<<'\n';
+    buffer4.BT = buffer3.BT;
+    cout<<"Buffer 4 Updated"<<'\n';
 }
 
 void CPU::ALU(){
@@ -119,6 +131,7 @@ void CPU::ALU(){
         else result=0;
         break;
     }
+    cout << "ALU\n";
 }
 
 void CPU::ALU2()
@@ -129,9 +142,10 @@ void CPU::ALU2()
         {
             result2 = buffer1.PC + buffer1.Curr_Instruction.imm + 1;
             buffer2.BranchTaken = true;
+            Up_PC();
         }
     //cout << MyCU.Jump << endl;
-    if(MyCU.Jump)
+    if(MyCU.Jump)//&& (!buffer1.BranchTaken))
     {
         buffer2.BranchTaken = true;
         switch(MyCU.ALUOp){
@@ -164,14 +178,16 @@ void CPU::ALU2()
             }
 
         }
+    //    Up_PC();
         //<<<<<<< HEAD
-        //    //cout<<"ALU 2 done"<<result2<<'\n';
+
         //=======
         //    }
         //    cout<<"ALU 2 done"<<result2<<'\n';
         //>>>>>>> origin/master
 
     }
+     cout<<"ALU 2 done"<<result2<<'\n';
 }
 
 void CPU::Up_Memory()
@@ -181,7 +197,7 @@ void CPU::Up_Memory()
 
     if (buffer3.MemWrite)
         MyMem[buffer3.Res_Alu] = buffer3.Rt_Value;
-    //cout<<"Memory updated\n";
+    cout<<"Memory updated\n";
 }
 
 void CPU::Up_Reg()
@@ -193,7 +209,7 @@ void CPU::Up_Reg()
         else
             MyReg[buffer4.Reg_destination] = buffer4.Alu_Result;
     }
-    //cout<<"Reg updated\n";
+    cout<<"Reg updated\n";
 }
 void CPU::Execute()
 {
@@ -201,6 +217,7 @@ void CPU::Execute()
     PC_p = 0;
     // CYCLE 0
     // IF
+    cout << "cycle " << clk+1 << endl;
         current = MyIM[PC_p];
         Update_buffer1(current);
         Units.push_back(qMakePair(clk,1));
@@ -209,6 +226,7 @@ void CPU::Execute()
     //what if it's only one instruction? if(pc<size) update?
 
     // CYCLE 1
+        cout << "cycle " << clk+1 << endl;
     //ID
         MyCU.Set(buffer1.Curr_Instruction);
         Update_buffer2();
@@ -225,10 +243,12 @@ void CPU::Execute()
 
     // CYCLE 2
     // EX
-        if(!Forwarding()){      // execute , no stalling
-            ALU();
+        cout << "cycle " << clk+1 << endl;
+        Forwarding();      // execute , no stalling
+
+        ALU();
             Update_buffer3();
-        }
+
         Units.push_back(qMakePair(clk,3));
     //ID
         MyCU.Set(buffer1.Curr_Instruction);
@@ -244,15 +264,16 @@ void CPU::Execute()
 
     // CYCLE 3
     // MEM
+        cout << "cycle " << clk+1 << endl;
         Units.push_back(qMakePair(clk,4));
         Up_Memory();
         Update_buffer4();
     // EX
     Units.push_back(qMakePair(clk,3));
-    if(!Forwarding()){      // execute , no stalling
+    Forwarding();      // execute , no stalling
         ALU();
         Update_buffer3();
-    }
+
     // ID
         Units.push_back(qMakePair(clk,2));
         MyCU.Set(buffer1.Curr_Instruction);
@@ -268,7 +289,11 @@ void CPU::Execute()
 
 
     while(PC_p < MyIM.size()) {
+        qDebug() << "P: " << PC_p;
+        qDebug() << MyCU.Jump << "  " << MyCU.Branch;
+        qDebug() << buffer4.BT;
         // WB
+        cout << "cycle " << clk+1 << endl;
         Units.push_back(qMakePair(clk,5));
         Up_Reg();
         // MEM
@@ -277,10 +302,10 @@ void CPU::Execute()
         Update_buffer4();
         // EX
         Units.push_back(qMakePair(clk,3));
-        if(!Forwarding()){      // execute , no stalling
+        Forwarding();      // execute , no stalling
             ALU();
             Update_buffer3();
-        }
+
         // ID
         Units.push_back(qMakePair(clk,2));
         MyCU.Set(buffer1.Curr_Instruction);
@@ -289,13 +314,20 @@ void CPU::Execute()
         ALU2();
         // IF
         Units.push_back(qMakePair(clk,1));
-        current = MyIM[PC_p];
+        //try{
+           //qDebug() << "PC_p" << PC_p;
+           current = MyIM[PC_p];
+       // }catch(...){
+        //    break;
+        //}
+
         Update_buffer1(current);
         clk++;
         Up_PC();
     }
 
     // CYCLE SIZE - 3
+    cout << "cycle " << clk+1 << endl;
     //WB
         Units.push_back(qMakePair(clk,5));
         Up_Reg();
@@ -305,10 +337,10 @@ void CPU::Execute()
         Update_buffer4();
     //EX
         Units.push_back(qMakePair(clk,3));
-        if(!Forwarding()){      // execute , no stalling
+        Forwarding();      // execute , no stalling
             ALU();
             Update_buffer3();
-        }
+
     // ID
         Units.push_back(qMakePair(clk,2));
         MyCU.Set(buffer1.Curr_Instruction);
@@ -318,6 +350,7 @@ void CPU::Execute()
 
     // CYCLE SIZE - 2
     // WB
+        cout << "cycle " << clk+1 << endl;
         Units.push_back(qMakePair(clk,5));
         Up_Reg();
     // MEM
@@ -332,6 +365,7 @@ void CPU::Execute()
         clk++;
     // CYCLE SIZE - 1
     // WB
+        cout << "cycle " << clk+1 << endl;
         Units.push_back(qMakePair(clk,5));
         Up_Reg();
     // MEM
@@ -341,12 +375,13 @@ void CPU::Execute()
         clk++;
     // CYCLE SIZE
     //WB
+        cout << "cycle " << clk+1 << endl;
         Units.push_back(qMakePair(clk,5));
         Up_Reg();
         clk++;
     //cout<<"PC" << PC_p<<'\n';
 }
-bool CPU:: Forwarding()
+void CPU:: Forwarding()
 {
     bool StallFlag = false;
     if (buffer2.Rs == buffer3.Reg_destination )
@@ -393,6 +428,6 @@ bool CPU:: Forwarding()
             }
         }
     }
-    return StallFlag;
+    //return StallFlag;
 }
 

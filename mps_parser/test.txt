@@ -1,16 +1,13 @@
 ADD $1, $2, $3
 ADDI $1, $1, 5
-SLT $9, $4, $3
-BLE $2, $0, 3
-J 19
-
-SW $1, 0($5)
-LW $2, 0($5)
-JUMP_PROCEDURE 8
-
-
-
-ADD $2, $2, $2
-BLE $2, $7, 5
-ADDI $8, $4, 12
+SLT $9, $4, $1
+ADDI $7, $3, 19
+SW $1, 0($8)
+XOR $20, $4, $1
+ADDI $17, $3, 19
+LW $1, 0($8)
+JUMP_PROCEDURE 10
+J 14
+ADD $1, $2, $3
+ADDI $1, $1, 5
 RETURN_PROCEDURE

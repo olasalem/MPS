@@ -14,6 +14,7 @@ public:
     int Branch;
     int PC;
     int Rt_Value;
+    bool BT = false;
 };
 
 #endif // IEXEC_MEM

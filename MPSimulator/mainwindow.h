@@ -41,6 +41,7 @@ private:
     bool fileSaved;
     bool stalled;
     bool isStart;
+    int clock = 0;
     Ui::MainWindow *ui;
     QString currentPath;
     QStringList registers;
@@ -52,7 +53,9 @@ private:
     void setRegisterTable();
     void setDataMemory();
     bool saveFile();
-    void addStage();
+    void addStage(int);
+    void pipeLine();
+    void stop();
     int notifyNotSaved();
 
 

@@ -51,7 +51,7 @@ public:
     void Up_Memory();
     void Up_Reg();
     void Execute();
-    bool Forwarding();
+    void Forwarding();
 
 };
 
