@@ -41,7 +41,7 @@ private:
     bool fileSaved;
     bool stalled;
     bool isStart;
-    int clock = 0;
+    int clock;
     Ui::MainWindow *ui;
     QString currentPath;
     QStringList registers;

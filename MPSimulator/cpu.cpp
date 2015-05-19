@@ -1,13 +1,13 @@
-#include "CPU.h"
+#include "cpu.h"
 #include <QDebug>
 #include <QPair>
 #include <iostream>
 using namespace std;
 
-CPU::CPU(){
+CPU::CPU():result(0), result2(0){
 
 }
-CPU::CPU(QVector<Instruction> &v){
+CPU::CPU(QVector<Instruction> &v):result(0), result2(0){
 
 }
 

@@ -14,7 +14,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    clock(0)
 {
     ui->setupUi(this);
     isStart = true;

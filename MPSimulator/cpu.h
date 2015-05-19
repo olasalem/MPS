@@ -2,14 +2,13 @@
 #define CPU_H
 
 #include "regfile.h"
-#include "DataMem.h"
+#include "datamem.h"
 #include "instruction.h"
-#include "Instruction.h"
 #include "controlunit.h"
-#include "IDec_Exec.h"
-#include "IExec_Mem.h"
-#include "IF_ID.h"
-#include "Mem_WB.h"
+#include "idec_exec.h"
+#include "iexec_mem.h"
+#include "if_id.h"
+#include "mem_wb.h"
 #include "stack.h"
 #include <QVector>
 #include <QPair>
@@ -33,7 +32,7 @@ public:
     DataMem MyMem;
 
     int PC_p; // take pc
-    int result = 0, result2 = 0;
+    int result, result2;
     int Mem_res;
     QVector< QPair<int,int> > Units; // The one that saves that units in every cycle , Units.first = unit{1,2,etc } , Units.second = cycle
 

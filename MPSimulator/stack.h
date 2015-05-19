@@ -15,7 +15,8 @@ public:
         int at(int ) const;
     private:
         const int static maxSize = 4;
-        int stackPointer[maxSize], topValue=-1;
+        int stackPointer[maxSize];
+        int topValue;
 };
 
 #endif // STACK_H

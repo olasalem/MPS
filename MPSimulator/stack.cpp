@@ -2,7 +2,7 @@
 #include <QDebug>
 #include "stack.h"
 using namespace std;
-Stack::Stack(){
+Stack::Stack():topValue(-1){
 }
 Stack::Stack(const Stack & s){ //copy constructor
     for(int i = 0; i < maxSize; i++){

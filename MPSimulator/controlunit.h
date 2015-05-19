@@ -1,9 +1,9 @@
 #ifndef CONTROLUNIT_H
 #define CONTROLUNIT_H
 
-#include "IDec_Exec.h"
-#include "IExec_Mem.h"
-#include "Mem_WB.h"
+#include "idec_exec.h"
+#include "iexec_mem.h"
+#include "mem_wb.h"
 #include "instruction.h"
 class ControlUnit
 {

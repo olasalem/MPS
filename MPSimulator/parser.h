@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QVector>
 #include <QTextStream>
+#include <QRegExp>
 #include "instruction.h"
 
 class Parser

@@ -4,7 +4,7 @@
 class IExec_Mem
 {
 public:
-    IExec_Mem(){}
+    IExec_Mem():BT(false){}
     ~IExec_Mem(){}
     bool WBReg;
     bool MemtoReg;          // MemRead
@@ -14,7 +14,7 @@ public:
     int Branch;
     int PC;
     int Rt_Value;
-    bool BT = false;
+    bool BT;
 };
 
 #endif // IEXEC_MEM
